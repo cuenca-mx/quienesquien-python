@@ -12,3 +12,5 @@ build/
 .idea/
 .eggs/
 .coverage
+*.xml
+*.idea/

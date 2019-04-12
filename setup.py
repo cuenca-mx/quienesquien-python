@@ -6,8 +6,8 @@ with open('README.md', 'r') as f:
 
 
 setuptools.setup(
-    name='clabe',
-    version='0.2.1',
+    name='quienesquien',
+    version='0.0.1',
     author='Cuenca',
     author_email='dev@cuenca.com',
     description='Cliente para listas quienesquien',
@@ -16,7 +16,7 @@ setuptools.setup(
     url='https://github.com/cuenca-mx/quienesquien-python',
     packages=setuptools.find_packages(),
     setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
+    tests_require=['pytest', 'vcrpy'],
     extras_require={
         'dev': [
             'pytest>=3',
