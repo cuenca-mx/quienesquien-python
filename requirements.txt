@@ -14,7 +14,6 @@ py==1.8.0
 pycodestyle==2.5.0
 pyquery==1.4.0
 pytest==4.4.0
--e git+git@github.com:cuenca-mx/quienesquien-python.git@0bd15765865638a2168dfbfb2b5f2761c6dc8851#egg=quienesquien
 requests==2.21.0
 requests-xml==0.2.3
 six==1.12.0
