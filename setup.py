@@ -16,7 +16,7 @@ setuptools.setup(
     description='Cliente para listas quienesquien',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/cuenca-mx/quienesquien-python',
+    url='https://github.com/cuenca-mx/quienesquien-python.git',
     packages=setuptools.find_packages(),
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'vcrpy'],
