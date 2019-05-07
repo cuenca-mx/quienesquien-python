@@ -1,4 +1,3 @@
-
 PERSON_FIELDNAMES = """
     id_persona
     peso1
