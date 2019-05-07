@@ -23,8 +23,7 @@ setuptools.setup(
     extras_require={
         'dev': [
             'pytest>=3',
-            'pycodestyle',
-            'coverage'
+            'pycodestyle'
         ]
     },
     classifiers=[
