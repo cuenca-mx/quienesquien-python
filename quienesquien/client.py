@@ -35,8 +35,9 @@ class Client:
             if len(person) > 0:
                 kwargs = dict()
                 for field in PERSON_FIELDNAMES:
-                    field_value = person.find(field).text
-                    kwargs[field] = field_value
+                    if person.find(field) is not None:
+                        field_value = person.find(field).text
+                        kwargs[field] = field_value
                 persons.append(Person(kwargs))
         xml_resumen = root.find('resumen')
         resumen = dict(
