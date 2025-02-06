@@ -13,55 +13,53 @@ class SearchResult(TypedDict):
 
 @dataclass
 class Client:
-    client_url: str
-    client_user: str
+    base_url: str
+    username: str
     client_id: str
-    secret_id: str
+    secret_key: str
     percent: int = 80
 
-    def _get_token(self) -> str:
-        login_url = f'{self.client_url}/api/token?client_id={self.client_id}'
-        headers = {'Authorization': f'Bearer {self.secret_id}'}
+    def _fetch_auth_token(self) -> str:
+        """Retrieve authentication token from the API."""
+        auth_url = f'{self.base_url}/api/token?client_id={self.client_id}'
+        headers = {'Authorization': f'Bearer {self.secret_key}'}
 
-        login_response = requests.get(login_url, headers=headers)
-        login_response.raise_for_status()
-
-        return login_response.text
+        response = requests.get(auth_url, headers=headers)
+        response.raise_for_status()
+        
+        return response.text
 
     def search(self, nombre: str, paterno: str, materno: str) -> SearchResult:
-        token = self._get_token()
+        """Perform a search request and return the results."""
+        token = self._fetch_auth_token()
 
-        url = (
-            f'{self.client_url}/api/find?client_id={self.client_id}'
-            f'&username={self.client_user}&percent={self.percent}'
+        search_url = (
+            f'{self.base_url}/api/find?client_id={self.client_id}'
+            f'&username={self.username}&percent={self.percent}'
             f'&name={nombre} {paterno} {materno}'
         )
 
         headers = {'Authorization': f'Bearer {token}'}
-        response = requests.get(url, headers=headers)
+        response = requests.get(search_url, headers=headers)
         response.raise_for_status()
 
-        data = response.json()
+        response_data = response.json()
+        matched_persons = []
 
-        persons = []
-
-        kwargs = dict()
-
-        persons_data = data.get('data', [])
-
-        for person in persons_data:
-            for field in PERSON_FIELDNAMES:
-                if person.get(field.upper()) is not None:
-                    field_value = person.get(field.upper())
-                    kwargs[field] = field_value
-            persons.append(Person(kwargs))
+        for person_data in response_data.get('data', []):
+            person_attributes = {
+                field: person_data.get(field.upper())
+                for field in PERSON_FIELDNAMES
+                if person_data.get(field.upper()) is not None
+            }
+            matched_persons.append(Person(person_attributes))
 
         result: SearchResult = {
             'resumen': {
-                'success': data['success'],
-                'num_registros': len(persons),
+                'success': response_data['success'],
+                'num_registros': len(matched_persons),
             },
-            'persons': persons,
+            'persons': matched_persons,
         }
 
         return result
