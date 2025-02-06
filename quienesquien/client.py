@@ -26,7 +26,7 @@ class Client:
 
         response = requests.get(auth_url, headers=headers)
         response.raise_for_status()
-        
+
         return response.text
 
     def search(self, nombre: str, paterno: str, materno: str) -> SearchResult:

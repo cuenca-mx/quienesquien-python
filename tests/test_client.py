@@ -8,6 +8,7 @@ def test_search_not_found(client):
     assert resp['resumen']['num_registros'] == 0
     assert resp['persons'] == []
 
+
 @pytest.mark.vcr
 def test_search(client):
     resp = client.search('Andres Manuel', 'Lopez', 'Obrador')
