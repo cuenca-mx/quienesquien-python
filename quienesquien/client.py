@@ -26,7 +26,7 @@ class Client:
 
         response = requests.get(auth_url, headers=headers)
         response.raise_for_status()
-        
+
         return response.text
 
     def search(self, nombre: str, paterno: str, materno: str) -> SearchResult:
@@ -56,7 +56,7 @@ class Client:
 
         result: SearchResult = {
             'resumen': {
-                'success': response_data['success'],
+                'success': response_data.get('success', False),
                 'num_registros': len(matched_persons),
             },
             'persons': matched_persons,

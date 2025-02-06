@@ -1,0 +1,113 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - DUMMY
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://app.q-detect.com/api/token?client_id=123456-1234-1234
+  response:
+    body:
+      string: DUMMY
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Sat, 08 Feb 2025 00:33:02 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=wtmmVA8YUd2Fo0tW6wFizYozcJzavV8AiUCgSwDaXTm02bpjYvmPmgTdp8DkflANq5kfR6ry0rshY82s4mzDuUJDVTrU31xlSVtAMVx/BuiEOe8rZrsEhRixuDEJX1vGZq2m4n+V5gaUZgww7n1sqNiHEDOnge6xwkZ/BygNWh3HXpJHkqc=;
+        Expires=Sat, 15 Feb 2025 00:33:01 GMT; Path=/
+      - AWSALBTGCORS=wtmmVA8YUd2Fo0tW6wFizYozcJzavV8AiUCgSwDaXTm02bpjYvmPmgTdp8DkflANq5kfR6ry0rshY82s4mzDuUJDVTrU31xlSVtAMVx/BuiEOe8rZrsEhRixuDEJX1vGZq2m4n+V5gaUZgww7n1sqNiHEDOnge6xwkZ/BygNWh3HXpJHkqc=;
+        Expires=Sat, 15 Feb 2025 00:33:01 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - DUMMY
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://app.q-detect.com/api/find?client_id=123456-1234-1234&username=pepito@cuenca.com&percent=80&name=Andres%20Manuel%20Lopez%20Obrador
+  response:
+    body:
+      string: '{"success":true,"data":[{"NOMBRECOMP":"Andres Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","ID_PERSONA":"QEQ0281252","NOMBRE":"Andres
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Inactivo","DEPENDENCIA":"PRESIDENCIA
+        DE LA REPUBLICA","PUESTO":"Presidente de los Estados Unidos Mexicanos","AREA":"Presidencia
+        de la Rep\u00fablica","IDDISPO":1111,"INGRESOS":"129432","APELLIDOS":"L\u00f3pez
+        Obrador","ENTIDAD":"Ciudad de M\u00e9xico","FECHA_CARGO_INI":"01\/12\/2018","FECHA_CARGO_FIN":"30\/09\/2024","facebook_DESCRIPCION":"\/lopezobrador.org.mx","twitter_DESCRIPCION":"@lopezobrador_","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Ambito
+        Federal\/Poder Ejecutivo Federal\/Administraci\u00f3n P\u00fablica Centralizada"},{"NOMBRECOMP":"Andres
+        Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","IDREL":"QEQ0242614","ID_PERSONA":"QEQ0380101","NOMBRE":"Andres
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Activo","PUESTO":"OTRO","IDDISPO":6,"PARENTESCO":"CU\u00d1ADO","APELLIDOS":"L\u00f3pez
+        Obrador","FECHA_CARGO_INI":"22\/11\/2022","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Familiares
+        PPE''s"},{"NOMBRECOMP":"Andres Manuel Lopez Obrador","ID_PERSONA":"PEPINT00009490","NOMBRE":"Andres
+        Manuel","PATERNO":"Lopez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","LISTA":"PEPINT","ESTATUS":"Inactivo","PUESTO":"Presidente","AREA":"Pres.","APELLIDOS":"Lopez
+        Obrador","PAIS":"Mexico","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP"},{"NOMBRECOMP":"Andr\u00e9s
+        Manuel L\u00f3pez Beltr\u00e1n","IDREL":"QEQ0281252","ID_PERSONA":"QEQ0281542","NOMBRE":"Andr\u00e9s
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Beltr\u00e1n","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Inactivo","PUESTO":"OTRO","IDDISPO":6,"PARENTESCO":"HIJO","APELLIDOS":"L\u00f3pez
+        Beltr\u00e1n","FECHA_CARGO_INI":"05\/12\/2018","COINCIDENCIA":85,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Familiares
+        PPE''s"}]}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 08 Feb 2025 00:33:03 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=ycBs0E4M7VrhAF/XcSzHb6TgM55+NcuWi8UkTqkWs0P33NS+5aqmGAAmKyWFbhDatklt5j90sNek0zw2kgvJZOt4EsNCVx/mJo44UY86jhc4gV/PrAu7EA7WsgUog7BdWrtNcWz3wOarC01CaRs9KVoPA9/tHoCk8DcrMt/OYXP0oCNSA6k=;
+        Expires=Sat, 15 Feb 2025 00:33:02 GMT; Path=/
+      - AWSALBTGCORS=ycBs0E4M7VrhAF/XcSzHb6TgM55+NcuWi8UkTqkWs0P33NS+5aqmGAAmKyWFbhDatklt5j90sNek0zw2kgvJZOt4EsNCVx/mJo44UY86jhc4gV/PrAu7EA7WsgUog7BdWrtNcWz3wOarC01CaRs9KVoPA9/tHoCk8DcrMt/OYXP0oCNSA6k=;
+        Expires=Sat, 15 Feb 2025 00:33:02 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,98 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - DUMMY
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://app.q-detect.com/api/token?client_id=123456-1234-1234
+  response:
+    body:
+      string: DUMMY
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Sat, 08 Feb 2025 00:33:00 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=SGprCrs7QrozGuZbiESz488ZMkugczNGoyYf+tHSrPSdQHd2k7/fkjYeBQsnUy6NTabsPKvSWscZ3aJxIzesk1Inv8HQzQZys5Yot1XCqyh6QLQV1hfLCKOPfw8o5UVhiu1zKu96a8bBj08xyKgh/iV78R2ZTJq7xm00RrKTJ5BoPBdyU1Y=;
+        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/
+      - AWSALBTGCORS=SGprCrs7QrozGuZbiESz488ZMkugczNGoyYf+tHSrPSdQHd2k7/fkjYeBQsnUy6NTabsPKvSWscZ3aJxIzesk1Inv8HQzQZys5Yot1XCqyh6QLQV1hfLCKOPfw8o5UVhiu1zKu96a8bBj08xyKgh/iV78R2ZTJq7xm00RrKTJ5BoPBdyU1Y=;
+        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - DUMMY
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://app.q-detect.com/api/find?client_id=123456-1234-1234&username=pepito@cuenca.com&percent=80&name=Pepito%20Cuenca%20
+  response:
+    body:
+      string: '{"success":false,"status":"No se han encontrado coincidencias"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 08 Feb 2025 00:33:01 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=QCJ9smlhbQsvc9Xd4Z7kHjLHZuvquWzsOrhrlZGaE6eisnkUi02YtQHmk+x7B3R/7FlCW4J0yi8vJCDNd6+YpraIp11k1cr6yXyah+WSk1c0vh8wm+ZlxFpb9+XokANFXctyo2CEynyzrRQT/0GecC+y/U6cEOrBzsj0Azz6m0m/F/sEgwk=;
+        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/
+      - AWSALBTGCORS=QCJ9smlhbQsvc9Xd4Z7kHjLHZuvquWzsOrhrlZGaE6eisnkUi02YtQHmk+x7B3R/7FlCW4J0yi8vJCDNd6+YpraIp11k1cr6yXyah+WSk1c0vh8wm+ZlxFpb9+XokANFXctyo2CEynyzrRQT/0GecC+y/U6cEOrBzsj0Azz6m0m/F/sEgwk=;
+        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

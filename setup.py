@@ -22,7 +22,7 @@ setup(
     include_package_data=True,
     package_data=dict(quienesquien=['py.typed']),
     python_requires='>=3.10',
-    install_requires=['requests>=2.32.3'],
+    install_requires=['requests>=2.32.0,<3.0.0'],
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.10',
