@@ -1,51 +1,57 @@
 import requests
-import xml.etree.ElementTree as ET
 
-from .person import Person, PERSON_FIELDNAMES
+from .person import PERSON_FIELDNAMES, Person
 
 
 class Client:
 
     client_user = None
-    client_password = None
     client_url = None
+    client_id = None
+    secret_id = None
+    percent = 80
 
-    def __init__(self, url: str, user: str, password: str):
+    def __init__(self, url: str, user: str, client_id: str, secret_id: str):
         """
         Configura el endpoint y las credenciales para realizar busquedas
         :param url: https://peps.mx/datos/qws
         :param user: usuario
-        :param password:  password
+        :param client_id: client_id
+        :param secret_id: secret_id
         :return:
         """
         self.client_user = user
-        self.client_password = password
         self.client_url = url
+        self.client_id = client_id
+        self.secret_id = secret_id
 
     def search(self, nombre, paterno, materno):
-        login_url = f'{self.client_url}/access?var1={self.client_user}'\
-                    f'&var2={self.client_password}'
-        login_response = requests.get(login_url)
-        url = f'{self.client_url}/pepsp?nombre={nombre}' \
-              f'&paterno={paterno}&materno={materno}'
-        response = requests.get(url, cookies=login_response.cookies)
-        root = ET.fromstring(response.content)
+        login_url = f'{self.client_url}/api/token?client_id={self.client_id}'
+        headers = {'Authorization': f'Bearer {self.secret_id}'}
+
+        login_response = requests.get(login_url, headers=headers)
+
+        token = login_response.text
+
+        url = f'{self.client_url}/api/find?client_id={self.client_id}'\
+        f'&username={self.client_user}&percent={self.percent}'\
+        f'&name={nombre} {paterno} {materno}'
+
+        headers = {'Authorization': f'Bearer {token}'}
+        response = requests.get(url, headers=headers)
+
+        data = response.json()
+
         persons = []
-        for person in root.iter('persona'):
-            if len(person) > 0:
-                kwargs = dict()
-                for field in PERSON_FIELDNAMES:
-                    if person.find(field) is not None:
-                        field_value = person.find(field).text
-                        kwargs[field] = field_value
-                persons.append(Person(kwargs))
-        xml_resumen = root.find('resumen')
+        for person in data.get('data', []):
+            kwargs = dict()
+            for field in PERSON_FIELDNAMES:
+                if field in person:
+                    kwargs[field] = person[field]
+            persons.append(Person(kwargs))
+
         resumen = dict(
-            id_resultado=xml_resumen.find('id_resultado').text,
-            num_registros=xml_resumen.find('num_registros').text,
-            num_conex_dia=xml_resumen.find('num_conex_dia').text
+            success=data['success'],
+            num_registros=len(persons),
         )
-        return dict(
-            resumen=resumen,
-            persons=persons
-        )
+        return dict(resumen=resumen, persons=persons)

@@ -1,7 +1,6 @@
 PERSON_FIELDNAMES = """
     id_persona
-    peso1
-    peso2
+    coincidencia
     nombre
     paterno
     materno
@@ -25,7 +24,6 @@ PERSON_FIELDNAMES = """
     nombrecomp
     apellidos
     entidad
-    curp_ok
     periodo
     expediente
     fecha_resolucion
