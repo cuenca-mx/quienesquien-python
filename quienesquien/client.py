@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from typing import TypedDict
 
 import requests
 
-from .person import PERSON_FIELDNAMES, Person
+from .person import Person
 
 
 class SearchResult(TypedDict):
@@ -45,15 +45,17 @@ class Client:
         response.raise_for_status()
 
         response_data = response.json()
-        matched_persons = []
-
-        for person_data in response_data.get('data', []):
-            person_attributes = {
-                field: person_data.get(field.upper())
-                for field in PERSON_FIELDNAMES
-                if person_data.get(field.upper()) is not None
-            }
-            matched_persons.append(Person(person_attributes))
+        person_fields = {field.name for field in fields(Person)}
+        matched_persons = [
+            Person(
+                **{
+                    k.lower(): v
+                    for k, v in person_data.items()
+                    if v is not None and k.lower() in person_fields
+                }
+            )
+            for person_data in response_data.get('data', [])
+        ]
 
         result: SearchResult = {
             'resumen': {

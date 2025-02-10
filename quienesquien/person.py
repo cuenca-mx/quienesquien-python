@@ -1,75 +1,69 @@
-PERSON_FIELDNAMES = """
-    id_persona
-    coincidencia
-    nombre
-    paterno
-    materno
-    curp
-    rfc
-    fecha_nacimiento
-    sexo
-    lista
-    estatus
-    dependencia
-    puesto
-    area
-    iddispo
-    idrel
-    parentesco
-    razonsoc
-    rfcmoral
-    issste
-    imss
-    ingresos
-    nombrecomp
-    apellidos
-    entidad
-    periodo
-    expediente
-    fecha_resolucion
-    causa_irregularidad
-    sancion
-    fecha_cargo_ini
-    fecha_cargo_fin
-    duracion
-    monto
-    autoridad_sanc
-    admon_local
-    numord
-    rubro
-    central_obrera
-    numsocios
-    fecha_vigencia
-    titulo
-    domicilio_a
-    domicilio_b
-    colonia
-    cp
-    ciudad
-    lada
-    telefono
-    fax
-    email
-    pais
-    idrequerimiento
-    fechaoficio
-    buscado_en
-    ciudadania
-    pasaporte
-    cedula
-    nss
-    parentesco_con
-    identificacion_no
-    licencia_cond
-    cartilla_no
-    gafi
-""".split()
+from dataclasses import dataclass
 
 
-class Person(object):
-    def __init__(self, *initial_data, **kwargs):
-        for dictionary in initial_data:
-            for key in dictionary:
-                setattr(self, key, dictionary[key])
-        for key in kwargs:
-            setattr(self, key, kwargs[key])
+@dataclass
+class Person:
+    id_persona: str | None = None
+    coincidencia: int | None = None
+    nombre: str | None = None
+    paterno: str | None = None
+    materno: str | None = None
+    curp: str | None = None
+    rfc: str | None = None
+    fecha_nacimiento: str | None = None
+    sexo: str | None = None
+    lista: str | None = None
+    estatus: str | None = None
+    dependencia: str | None = None
+    puesto: str | None = None
+    area: str | None = None
+    iddispo: int | None = None
+    idrel: str | None = None
+    parentesco: str | None = None
+    razonsoc: str | None = None
+    rfcmoral: str | None = None
+    issste: str | None = None
+    imss: str | None = None
+    ingresos: str | None = None
+    nombrecomp: str | None = None
+    apellidos: str | None = None
+    entidad: str | None = None
+    periodo: str | None = None
+    expediente: str | None = None
+    fecha_resolucion: str | None = None
+    causa_irregularidad: str | None = None
+    sancion: str | None = None
+    fecha_cargo_ini: str | None = None
+    fecha_cargo_fin: str | None = None
+    duracion: str | None = None
+    monto: str | None = None
+    autoridad_sanc: str | None = None
+    admon_local: str | None = None
+    numord: str | None = None
+    rubro: str | None = None
+    central_obrera: str | None = None
+    numsocios: str | None = None
+    fecha_vigencia: str | None = None
+    titulo: str | None = None
+    domicilio_a: str | None = None
+    domicilio_b: str | None = None
+    colonia: str | None = None
+    cp: str | None = None
+    ciudad: str | None = None
+    lada: str | None = None
+    telefono: str | None = None
+    fax: str | None = None
+    email: str | None = None
+    pais: str | None = None
+    idrequerimiento: str | None = None
+    fechaoficio: str | None = None
+    buscado_en: str | None = None
+    ciudadania: str | None = None
+    pasaporte: str | None = None
+    cedula: str | None = None
+    nss: str | None = None
+    parentesco_con: str | None = None
+    identificacion_no: str | None = None
+    licencia_cond: str | None = None
+    cartilla_no: str | None = None
+    gafi: str | None = None
