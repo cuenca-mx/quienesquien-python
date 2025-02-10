@@ -4,17 +4,17 @@ import pytest
 @pytest.mark.vcr
 def test_search_not_found(client):
     resp = client.search('Pepito', 'Cuenca', '', 80)
-    assert resp['resumen']['success'] is False
-    assert resp['resumen']['num_registros'] == 0
-    assert resp['persons'] == []
+    assert resp.success is False
+    assert resp.num_registros == 0
+    assert resp.persons == []
 
 
 @pytest.mark.vcr
 def test_search(client):
     resp = client.search('Andres Manuel', 'Lopez', 'Obrador', 80)
-    assert resp['resumen']['success'] is True
-    assert resp['resumen']['num_registros'] != 0
-    assert resp['persons'] is not None
+    assert resp.success is True
+    assert resp.num_registros != 0
+    assert resp.persons is not None
 
 
 @pytest.mark.vcr
@@ -31,6 +31,6 @@ def test_search_with_params(client):
         search_type=0,
         search_list='PPE',
     )
-    assert resp['resumen']['success'] is True
-    assert resp['resumen']['num_registros'] != 0
-    assert resp['persons'] is not None
+    assert resp.success is True
+    assert resp.num_registros != 0
+    assert resp.persons is not None

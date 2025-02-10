@@ -1,13 +1,14 @@
 from dataclasses import dataclass, fields
-from typing import TypedDict
 
 import requests
 
 from .person import Person
 
 
-class SearchResult(TypedDict):
-    resumen: dict[str, int | bool]
+@dataclass
+class SearchResult:
+    success: bool
+    num_registros: int
     persons: list[Person]
 
 
@@ -96,12 +97,8 @@ class Client:
             for person_data in response_data.get('data', [])
         ]
 
-        result: SearchResult = {
-            'resumen': {
-                'success': response_data.get('success', False),
-                'num_registros': len(matched_persons),
-            },
-            'persons': matched_persons,
-        }
-
-        return result
+        return SearchResult(
+            success=response_data.get('success', False),
+            num_registros=len(matched_persons),
+            persons=matched_persons,
+        )
