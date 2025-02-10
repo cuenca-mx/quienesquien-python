@@ -9,7 +9,7 @@ QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
 QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def client():
     yield Client(QEQ_USER, QEQ_CLIENT_ID, QEQ_SECRET_ID)
 

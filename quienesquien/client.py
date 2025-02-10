@@ -18,9 +18,13 @@ class Client:
     username: str
     client_id: str
     secret_key: str
+    _auth_token: str | None = None
 
     async def _fetch_auth_token(self) -> str:
         """Retrieve authentication token from the API."""
+        if self._auth_token is not None:
+            return self._auth_token
+
         auth_url = f'{self.base_url}/api/token?client_id={self.client_id}'
         headers = {
             'Authorization': f'Bearer {self.secret_key}',
@@ -30,7 +34,8 @@ class Client:
         async with httpx.AsyncClient() as client:
             response = await client.get(auth_url, headers=headers)
             response.raise_for_status()
-            return response.text
+            self._auth_token = response.text
+            return self._auth_token
 
     async def search(
         self,
