@@ -17,7 +17,6 @@ class Client:
     username: str
     client_id: str
     secret_key: str
-    percent: int = 80
 
     def _fetch_auth_token(self) -> str:
         """Retrieve authentication token from the API."""
@@ -29,13 +28,15 @@ class Client:
 
         return response.text
 
-    def search(self, nombre: str, paterno: str, materno: str) -> SearchResult:
+    def search(
+        self, nombre: str, paterno: str, materno: str, match_score: int = 60
+    ) -> SearchResult:
         """Perform a search request and return the results."""
         token = self._fetch_auth_token()
 
         search_url = (
             f'{self.base_url}/api/find?client_id={self.client_id}'
-            f'&username={self.username}&percent={self.percent}'
+            f'&username={self.username}&percent={match_score}'
             f'&name={nombre} {paterno} {materno}'
         )
 
