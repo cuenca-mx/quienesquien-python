@@ -13,7 +13,7 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://app.q-detect.com/api/token?client_id=123456-1234-1234
+    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
   response:
     body:
       string: DUMMY
@@ -29,14 +29,14 @@ interactions:
       Content-Type:
       - text/html; charset=UTF-8
       Date:
-      - Sat, 08 Feb 2025 00:33:02 GMT
+      - Mon, 10 Feb 2025 16:25:31 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=wtmmVA8YUd2Fo0tW6wFizYozcJzavV8AiUCgSwDaXTm02bpjYvmPmgTdp8DkflANq5kfR6ry0rshY82s4mzDuUJDVTrU31xlSVtAMVx/BuiEOe8rZrsEhRixuDEJX1vGZq2m4n+V5gaUZgww7n1sqNiHEDOnge6xwkZ/BygNWh3HXpJHkqc=;
-        Expires=Sat, 15 Feb 2025 00:33:01 GMT; Path=/
-      - AWSALBTGCORS=wtmmVA8YUd2Fo0tW6wFizYozcJzavV8AiUCgSwDaXTm02bpjYvmPmgTdp8DkflANq5kfR6ry0rshY82s4mzDuUJDVTrU31xlSVtAMVx/BuiEOe8rZrsEhRixuDEJX1vGZq2m4n+V5gaUZgww7n1sqNiHEDOnge6xwkZ/BygNWh3HXpJHkqc=;
-        Expires=Sat, 15 Feb 2025 00:33:01 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=cX4ep4mWeHPUCObgDF6uJzsHlvpJFYRyNEynyk3CU5/1QF5vD0xbvlhWYHb2EwUAO/vi/xaInt0Zwrm8LWI5fXv2D8gapF51uRuhykG+Jr+P7xl2Uzo4r2B9OkBnKl+mxR6JuvPFxoI3X7eXR1fd5e2oOR+VggLCjai2Nx0ZngJB7nzY/1s=;
+        Expires=Mon, 17 Feb 2025 16:25:31 GMT; Path=/
+      - AWSALBTGCORS=cX4ep4mWeHPUCObgDF6uJzsHlvpJFYRyNEynyk3CU5/1QF5vD0xbvlhWYHb2EwUAO/vi/xaInt0Zwrm8LWI5fXv2D8gapF51uRuhykG+Jr+P7xl2Uzo4r2B9OkBnKl+mxR6JuvPFxoI3X7eXR1fd5e2oOR+VggLCjai2Nx0ZngJB7nzY/1s=;
+        Expires=Mon, 17 Feb 2025 16:25:31 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:
@@ -62,7 +62,7 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://app.q-detect.com/api/find?client_id=123456-1234-1234&username=pepito@cuenca.com&percent=80&name=Andres%20Manuel%20Lopez%20Obrador
+    uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Andres+Manuel+Lopez+Obrador&percent=80&username=DUMMY_USERNAME
   response:
     body:
       string: '{"success":true,"data":[{"NOMBRECOMP":"Andres Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","ID_PERSONA":"QEQ0281252","NOMBRE":"Andres
@@ -91,14 +91,14 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 08 Feb 2025 00:33:03 GMT
+      - Mon, 10 Feb 2025 16:25:32 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=ycBs0E4M7VrhAF/XcSzHb6TgM55+NcuWi8UkTqkWs0P33NS+5aqmGAAmKyWFbhDatklt5j90sNek0zw2kgvJZOt4EsNCVx/mJo44UY86jhc4gV/PrAu7EA7WsgUog7BdWrtNcWz3wOarC01CaRs9KVoPA9/tHoCk8DcrMt/OYXP0oCNSA6k=;
-        Expires=Sat, 15 Feb 2025 00:33:02 GMT; Path=/
-      - AWSALBTGCORS=ycBs0E4M7VrhAF/XcSzHb6TgM55+NcuWi8UkTqkWs0P33NS+5aqmGAAmKyWFbhDatklt5j90sNek0zw2kgvJZOt4EsNCVx/mJo44UY86jhc4gV/PrAu7EA7WsgUog7BdWrtNcWz3wOarC01CaRs9KVoPA9/tHoCk8DcrMt/OYXP0oCNSA6k=;
-        Expires=Sat, 15 Feb 2025 00:33:02 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=TP24ifGLHNLFE71LTTzlAfSlh81gbKr5HMeJn8T41drV5WgUUk/bAjOLnQh0NgRLWbiK3DpPKua9XkAUFLi2IstwV+XoKYpx55a8bk7gDC1HkvbB00LnafHtvx/Y+Vfy1P/j8kIt0uWzS24S9BRfFg3ZRL++xtCW5CA8Rjwn1IFot5XYvQo=;
+        Expires=Mon, 17 Feb 2025 16:25:31 GMT; Path=/
+      - AWSALBTGCORS=TP24ifGLHNLFE71LTTzlAfSlh81gbKr5HMeJn8T41drV5WgUUk/bAjOLnQh0NgRLWbiK3DpPKua9XkAUFLi2IstwV+XoKYpx55a8bk7gDC1HkvbB00LnafHtvx/Y+Vfy1P/j8kIt0uWzS24S9BRfFg3ZRL++xtCW5CA8Rjwn1IFot5XYvQo=;
+        Expires=Mon, 17 Feb 2025 16:25:31 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:

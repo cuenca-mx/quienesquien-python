@@ -13,7 +13,7 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://app.q-detect.com/api/token?client_id=123456-1234-1234
+    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
   response:
     body:
       string: DUMMY
@@ -29,14 +29,14 @@ interactions:
       Content-Type:
       - text/html; charset=UTF-8
       Date:
-      - Sat, 08 Feb 2025 00:33:00 GMT
+      - Mon, 10 Feb 2025 16:25:29 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=SGprCrs7QrozGuZbiESz488ZMkugczNGoyYf+tHSrPSdQHd2k7/fkjYeBQsnUy6NTabsPKvSWscZ3aJxIzesk1Inv8HQzQZys5Yot1XCqyh6QLQV1hfLCKOPfw8o5UVhiu1zKu96a8bBj08xyKgh/iV78R2ZTJq7xm00RrKTJ5BoPBdyU1Y=;
-        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/
-      - AWSALBTGCORS=SGprCrs7QrozGuZbiESz488ZMkugczNGoyYf+tHSrPSdQHd2k7/fkjYeBQsnUy6NTabsPKvSWscZ3aJxIzesk1Inv8HQzQZys5Yot1XCqyh6QLQV1hfLCKOPfw8o5UVhiu1zKu96a8bBj08xyKgh/iV78R2ZTJq7xm00RrKTJ5BoPBdyU1Y=;
-        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=l1MSdbpMNHV4Vh/sERyxn9C6y2br+puMt4I6rbs6pLaQHi6tSaADs08W0wGNsKVF1DFk9bkhz0Ir87yyiOkPtT17LIjKz7lYKlv3V+5kjDppIDXhVVMoEp8lbQbm80V9WZfRpM+gjXNHzh1NSPYAk2s2te4BfjKhpND7/r59+s7SQavWrp4=;
+        Expires=Mon, 17 Feb 2025 16:25:29 GMT; Path=/
+      - AWSALBTGCORS=l1MSdbpMNHV4Vh/sERyxn9C6y2br+puMt4I6rbs6pLaQHi6tSaADs08W0wGNsKVF1DFk9bkhz0Ir87yyiOkPtT17LIjKz7lYKlv3V+5kjDppIDXhVVMoEp8lbQbm80V9WZfRpM+gjXNHzh1NSPYAk2s2te4BfjKhpND7/r59+s7SQavWrp4=;
+        Expires=Mon, 17 Feb 2025 16:25:29 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:
@@ -62,7 +62,7 @@ interactions:
       User-Agent:
       - python-requests/2.32.3
     method: GET
-    uri: https://app.q-detect.com/api/find?client_id=123456-1234-1234&username=pepito@cuenca.com&percent=80&name=Pepito%20Cuenca%20
+    uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Pepito+Cuenca+&percent=80&username=DUMMY_USERNAME
   response:
     body:
       string: '{"success":false,"status":"No se han encontrado coincidencias"}'
@@ -76,14 +76,14 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 08 Feb 2025 00:33:01 GMT
+      - Mon, 10 Feb 2025 16:25:30 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=QCJ9smlhbQsvc9Xd4Z7kHjLHZuvquWzsOrhrlZGaE6eisnkUi02YtQHmk+x7B3R/7FlCW4J0yi8vJCDNd6+YpraIp11k1cr6yXyah+WSk1c0vh8wm+ZlxFpb9+XokANFXctyo2CEynyzrRQT/0GecC+y/U6cEOrBzsj0Azz6m0m/F/sEgwk=;
-        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/
-      - AWSALBTGCORS=QCJ9smlhbQsvc9Xd4Z7kHjLHZuvquWzsOrhrlZGaE6eisnkUi02YtQHmk+x7B3R/7FlCW4J0yi8vJCDNd6+YpraIp11k1cr6yXyah+WSk1c0vh8wm+ZlxFpb9+XokANFXctyo2CEynyzrRQT/0GecC+y/U6cEOrBzsj0Azz6m0m/F/sEgwk=;
-        Expires=Sat, 15 Feb 2025 00:33:00 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=ZH2IDdg/XCNqeSkx2dUK5AcY3KljbaSxSep6rcBCnnxzbO1QU7XE/ZeOAJ0Q0UnfnqMQtWumKbjvoUCJl5/Egks3PLvljWVduftNppsLW4sjJBp3zsyZGq/X8OcMIntM+gpnylW3crlBGxDRxwuC++Fsib1fdLKIYRmgmSsMRYBYXPR3gQA=;
+        Expires=Mon, 17 Feb 2025 16:25:30 GMT; Path=/
+      - AWSALBTGCORS=ZH2IDdg/XCNqeSkx2dUK5AcY3KljbaSxSep6rcBCnnxzbO1QU7XE/ZeOAJ0Q0UnfnqMQtWumKbjvoUCJl5/Egks3PLvljWVduftNppsLW4sjJBp3zsyZGq/X8OcMIntM+gpnylW3crlBGxDRxwuC++Fsib1fdLKIYRmgmSsMRYBYXPR3gQA=;
+        Expires=Mon, 17 Feb 2025 16:25:30 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:
