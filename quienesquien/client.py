@@ -1,6 +1,6 @@
 from dataclasses import dataclass, fields
 
-import requests
+import httpx
 
 from .person import Person
 
@@ -14,22 +14,25 @@ class SearchResult:
 
 @dataclass
 class Client:
-    base_url = 'https://app.q-detect.com/'
+    base_url = 'https://app.q-detect.com'
     username: str
     client_id: str
     secret_key: str
 
-    def _fetch_auth_token(self) -> str:
+    async def _fetch_auth_token(self) -> str:
         """Retrieve authentication token from the API."""
         auth_url = f'{self.base_url}/api/token?client_id={self.client_id}'
-        headers = {'Authorization': f'Bearer {self.secret_key}'}
+        headers = {
+            'Authorization': f'Bearer {self.secret_key}',
+            'Accept-Encoding': 'identity',
+        }
 
-        response = requests.get(auth_url, headers=headers)
-        response.raise_for_status()
+        async with httpx.AsyncClient() as client:
+            response = await client.get(auth_url, headers=headers)
+            response.raise_for_status()
+            return response.text
 
-        return response.text
-
-    def search(
+    async def search(
         self,
         nombre: str,
         paterno: str,
@@ -57,7 +60,7 @@ class Client:
             search_list: Comma-separated list of specific lists to search
                (e.g., 'PPE, PEPINT, VENC') if not provided, searches all
         """
-        token = self._fetch_auth_token()
+        token = await self._fetch_auth_token()
 
         # Build base URL with required parameters
         search_url = (
@@ -81,10 +84,12 @@ class Client:
             search_url += f'&list={search_list}'
 
         headers = {'Authorization': f'Bearer {token}'}
-        response = requests.get(search_url, headers=headers)
-        response.raise_for_status()
 
-        response_data = response.json()
+        async with httpx.AsyncClient() as client:
+            response = await client.get(search_url, headers=headers)
+            response.raise_for_status()
+            response_data = response.json()
+
         person_fields = {field.name for field in fields(Person)}
         matched_persons = [
             Person(

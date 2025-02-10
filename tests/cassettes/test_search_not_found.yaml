@@ -1,17 +1,19 @@
 interactions:
 - request:
-    body: null
+    body: ''
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
       Authorization:
       - DUMMY
-      Connection:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - identity
+      connection:
       - keep-alive
-      User-Agent:
-      - python-requests/2.32.3
+      host:
+      - app.q-detect.com
+      user-agent:
+      - python-httpx/0.28.1
     method: GET
     uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
   response:
@@ -24,19 +26,17 @@ interactions:
       - no-cache, private
       Connection:
       - keep-alive
-      Content-Encoding:
-      - gzip
       Content-Type:
       - text/html; charset=UTF-8
       Date:
-      - Mon, 10 Feb 2025 16:25:29 GMT
+      - Mon, 10 Feb 2025 21:20:00 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=l1MSdbpMNHV4Vh/sERyxn9C6y2br+puMt4I6rbs6pLaQHi6tSaADs08W0wGNsKVF1DFk9bkhz0Ir87yyiOkPtT17LIjKz7lYKlv3V+5kjDppIDXhVVMoEp8lbQbm80V9WZfRpM+gjXNHzh1NSPYAk2s2te4BfjKhpND7/r59+s7SQavWrp4=;
-        Expires=Mon, 17 Feb 2025 16:25:29 GMT; Path=/
-      - AWSALBTGCORS=l1MSdbpMNHV4Vh/sERyxn9C6y2br+puMt4I6rbs6pLaQHi6tSaADs08W0wGNsKVF1DFk9bkhz0Ir87yyiOkPtT17LIjKz7lYKlv3V+5kjDppIDXhVVMoEp8lbQbm80V9WZfRpM+gjXNHzh1NSPYAk2s2te4BfjKhpND7/r59+s7SQavWrp4=;
-        Expires=Mon, 17 Feb 2025 16:25:29 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=QxHeS+grGqQupu8BMV0PudJ5ZiozwcJbtY1N22dq/IkMp7FvqjocRTyQ6YNwheIiYUSm8ecDoSYwFzTEebF4qagkQQSll1BDmvXPQwYaV5QDbQ0PaDOXXhQW1eT11wGqyPCGpPDzmrsCXJAR3dTbPeYeLvpoz04cAjDKvZ7cBR//C/s4i1I=;
+        Expires=Mon, 17 Feb 2025 21:20:00 GMT; Path=/
+      - AWSALBTGCORS=QxHeS+grGqQupu8BMV0PudJ5ZiozwcJbtY1N22dq/IkMp7FvqjocRTyQ6YNwheIiYUSm8ecDoSYwFzTEebF4qagkQQSll1BDmvXPQwYaV5QDbQ0PaDOXXhQW1eT11wGqyPCGpPDzmrsCXJAR3dTbPeYeLvpoz04cAjDKvZ7cBR//C/s4i1I=;
+        Expires=Mon, 17 Feb 2025 21:20:00 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:
@@ -49,18 +49,20 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: null
+    body: ''
     headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
       Authorization:
       - DUMMY
-      Connection:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
       - keep-alive
-      User-Agent:
-      - python-requests/2.32.3
+      host:
+      - app.q-detect.com
+      user-agent:
+      - python-httpx/0.28.1
     method: GET
     uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Pepito+Cuenca+&percent=80&username=DUMMY_USERNAME
   response:
@@ -76,14 +78,14 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Feb 2025 16:25:30 GMT
+      - Mon, 10 Feb 2025 21:20:01 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=ZH2IDdg/XCNqeSkx2dUK5AcY3KljbaSxSep6rcBCnnxzbO1QU7XE/ZeOAJ0Q0UnfnqMQtWumKbjvoUCJl5/Egks3PLvljWVduftNppsLW4sjJBp3zsyZGq/X8OcMIntM+gpnylW3crlBGxDRxwuC++Fsib1fdLKIYRmgmSsMRYBYXPR3gQA=;
-        Expires=Mon, 17 Feb 2025 16:25:30 GMT; Path=/
-      - AWSALBTGCORS=ZH2IDdg/XCNqeSkx2dUK5AcY3KljbaSxSep6rcBCnnxzbO1QU7XE/ZeOAJ0Q0UnfnqMQtWumKbjvoUCJl5/Egks3PLvljWVduftNppsLW4sjJBp3zsyZGq/X8OcMIntM+gpnylW3crlBGxDRxwuC++Fsib1fdLKIYRmgmSsMRYBYXPR3gQA=;
-        Expires=Mon, 17 Feb 2025 16:25:30 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=rztTGuS0h8tb907uY1Lv9RX+dyI6HMBt6n8S46veV6RKEneVBzjEw54E9XUGwR+wRuyxeuzGDL29YrRN9fNm/5oMWCUY+kZv7Q/Y1g/pk20+LCZOnV2PLQHLFclDclardA1/7NwOY8daW8DsGGtfBRjmDy5ZwF/jsAd2HFnRdvlQUeAzT+A=;
+        Expires=Mon, 17 Feb 2025 21:20:01 GMT; Path=/
+      - AWSALBTGCORS=rztTGuS0h8tb907uY1Lv9RX+dyI6HMBt6n8S46veV6RKEneVBzjEw54E9XUGwR+wRuyxeuzGDL29YrRN9fNm/5oMWCUY+kZv7Q/Y1g/pk20+LCZOnV2PLQHLFclDclardA1/7NwOY8daW8DsGGtfBRjmDy5ZwF/jsAd2HFnRdvlQUeAzT+A=;
+        Expires=Mon, 17 Feb 2025 21:20:01 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:

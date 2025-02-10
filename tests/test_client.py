@@ -2,24 +2,24 @@ import pytest
 
 
 @pytest.mark.vcr
-def test_search_not_found(client):
-    resp = client.search('Pepito', 'Cuenca', '', 80)
+async def test_search_not_found(client):
+    resp = await client.search('Pepito', 'Cuenca', '', 80)
     assert resp.success is False
     assert resp.num_registros == 0
     assert resp.persons == []
 
 
 @pytest.mark.vcr
-def test_search(client):
-    resp = client.search('Andres Manuel', 'Lopez', 'Obrador', 80)
+async def test_search(client):
+    resp = await client.search('Andres Manuel', 'Lopez', 'Obrador', 80)
     assert resp.success is True
     assert resp.num_registros != 0
     assert resp.persons is not None
 
 
 @pytest.mark.vcr
-def test_search_with_params(client):
-    resp = client.search(
+async def test_search_with_params(client):
+    resp = await client.search(
         nombre='Andres Manuel',
         paterno='Lopez',
         materno='Obrador',
