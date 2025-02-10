@@ -1,0 +1,107 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - DUMMY
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
+  response:
+    body:
+      string: DUMMY
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Mon, 10 Feb 2025 18:29:43 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=6AOxOR47GsOOxS/cCsRwvsr64GP5fylTh8yL1n5Kljs0opdsDDJ5vfNGgtTyS04xRhqzCpBHR4D6fK7KzsGlqQAfVFPRknKlwCf6ri1txWpldR8WSu7IuOd5lz6UCX/PBrNZqpl5CkHqJMXNVfezfy72TO0nV9EieGu9+Ijj16NyH/6hEWk=;
+        Expires=Mon, 17 Feb 2025 18:29:43 GMT; Path=/
+      - AWSALBTGCORS=6AOxOR47GsOOxS/cCsRwvsr64GP5fylTh8yL1n5Kljs0opdsDDJ5vfNGgtTyS04xRhqzCpBHR4D6fK7KzsGlqQAfVFPRknKlwCf6ri1txWpldR8WSu7IuOd5lz6UCX/PBrNZqpl5CkHqJMXNVfezfy72TO0nV9EieGu9+Ijj16NyH/6hEWk=;
+        Expires=Mon, 17 Feb 2025 18:29:43 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - DUMMY
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.3
+    method: GET
+    uri: https://app.q-detect.com/api/find?birthday=13%2F11%2F1953&client_id=DUMMY_CLIENT_ID&curp=LOOA531113HTCPBN07&list=PPE&name=Andres+Manuel+Lopez+Obrador&percent=85&rfc=LOOA531113F15&sex=M&type=0&username=DUMMY_USERNAME
+  response:
+    body:
+      string: '{"success":true,"data":[{"NOMBRECOMP":"Andres Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","ID_PERSONA":"QEQ0281252","NOMBRE":"Andres
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Inactivo","DEPENDENCIA":"PRESIDENCIA
+        DE LA REPUBLICA","PUESTO":"Presidente de los Estados Unidos Mexicanos","AREA":"Presidencia
+        de la Rep\u00fablica","IDDISPO":1111,"INGRESOS":"129432","APELLIDOS":"L\u00f3pez
+        Obrador","ENTIDAD":"Ciudad de M\u00e9xico","FECHA_CARGO_INI":"01\/12\/2018","FECHA_CARGO_FIN":"30\/09\/2024","facebook_DESCRIPCION":"\/lopezobrador.org.mx","twitter_DESCRIPCION":"@lopezobrador_","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Ambito
+        Federal\/Poder Ejecutivo Federal\/Administraci\u00f3n P\u00fablica Centralizada"},{"NOMBRECOMP":"Andres
+        Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","IDREL":"QEQ0242614","ID_PERSONA":"QEQ0380101","NOMBRE":"Andres
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Activo","PUESTO":"OTRO","IDDISPO":6,"PARENTESCO":"CU\u00d1ADO","APELLIDOS":"L\u00f3pez
+        Obrador","FECHA_CARGO_INI":"22\/11\/2022","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Familiares
+        PPE''s"}]}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 10 Feb 2025 18:29:44 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=f0aXNrbivsxqY8uBanTchdpgJgW+BcdaThkXoBd+dNlpkBFOfWjt4mQ/8a21UjrzjRxkRdFtKyaofZ2fu+7cWueDlpit5B3gtiMYllFFF0AJHIlyGSlM0E/jD1wsdGLhk7l+Aud3ZCV5XcYp1yN6FK57fgtmM9UEDynUdkz3Pdyfmcqha/c=;
+        Expires=Mon, 17 Feb 2025 18:29:43 GMT; Path=/
+      - AWSALBTGCORS=f0aXNrbivsxqY8uBanTchdpgJgW+BcdaThkXoBd+dNlpkBFOfWjt4mQ/8a21UjrzjRxkRdFtKyaofZ2fu+7cWueDlpit5B3gtiMYllFFF0AJHIlyGSlM0E/jD1wsdGLhk7l+Aud3ZCV5XcYp1yN6FK57fgtmM9UEDynUdkz3Pdyfmcqha/c=;
+        Expires=Mon, 17 Feb 2025 18:29:43 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -29,16 +29,55 @@ class Client:
         return response.text
 
     def search(
-        self, nombre: str, paterno: str, materno: str, match_score: int = 60
+        self,
+        nombre: str,
+        paterno: str,
+        materno: str,
+        match_score: int = 60,
+        rfc: str | None = None,
+        curp: str | None = None,
+        sex: str | None = None,
+        birthday: str | None = None,
+        search_type: int | None = None,
+        search_list: str | None = None,
     ) -> SearchResult:
-        """Perform a search request and return the results."""
+        """Perform a search request and return the results.
+
+        Args:
+            nombre: First name(s)
+            paterno: First surname
+            materno: Second surname
+            match_score: Minimum match percentage (default: 60)
+            rfc: Mexican RFC
+            curp: Mexican CURP
+            sex: Gender - 'M' for male, 'F' for female
+            birthday: Date of birth in dd/mm/yyyy format
+            search_type: Type of search - 0 for individual, 1 for company
+            search_list: Comma-separated list of specific lists to search
+               (e.g., 'PPE, PEPINT, VENC') if not provided, searches all
+        """
         token = self._fetch_auth_token()
 
+        # Build base URL with required parameters
         search_url = (
             f'{self.base_url}/api/find?client_id={self.client_id}'
             f'&username={self.username}&percent={match_score}'
             f'&name={nombre} {paterno} {materno}'
         )
+
+        # Add optional parameters if provided
+        if rfc:
+            search_url += f'&rfc={rfc}'
+        if curp:
+            search_url += f'&curp={curp}'
+        if sex:
+            search_url += f'&sex={sex}'
+        if birthday:
+            search_url += f'&birthday={birthday}'
+        if search_type is not None:
+            search_url += f'&type={search_type}'
+        if search_list:
+            search_url += f'&list={search_list}'
 
         headers = {'Authorization': f'Bearer {token}'}
         response = requests.get(search_url, headers=headers)
