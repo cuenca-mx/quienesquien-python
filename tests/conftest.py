@@ -1,16 +1,17 @@
+import os
+
 import pytest
 
 from quienesquien import Client
 
-URL = 'https://app.q-detect.com/'
-USER = 'pepito@cuenca.com'
-CLIENT_ID = '123456-1234-1234'
-SECRET_ID = 'notsecurepassword'
+QEQ_USER = os.environ['QEQ_USER']
+QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
+QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
 
 
 @pytest.fixture
 def client():
-    yield Client(URL, USER, CLIENT_ID, SECRET_ID)
+    yield Client(QEQ_USER, QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 
 def mask_first_response(response, interaction_count):
@@ -45,5 +46,5 @@ def vcr_config():
 
 @pytest.fixture(autouse=True, scope='function')
 def reset_request_counter(vcr_config):
-    """Reset the request counter in each test without changing the scope of vcr_config"""
+    """Reset the request counter in each test"""
     vcr_config['before_record_response'].__closure__[0].cell_contents = 0

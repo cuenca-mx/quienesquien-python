@@ -13,7 +13,7 @@ class SearchResult(TypedDict):
 
 @dataclass
 class Client:
-    base_url: str
+    base_url = 'https://app.q-detect.com/'
     username: str
     client_id: str
     secret_key: str
