@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Mapping
 
 import httpx
 
@@ -20,22 +21,46 @@ class Client:
     secret_key: str
     _auth_token: str | None = None
 
+    async def _get_client(self) -> httpx.AsyncClient:
+        """Create and return an httpx.AsyncClient instance."""
+        return httpx.AsyncClient()
+
+    async def _make_request(
+        self,
+        method: str,
+        url: str,
+        *,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, str | int | None] | None = None,
+    ) -> httpx.Response:
+        """Make an HTTP request using an async client."""
+        async with await self._get_client() as client:
+            response = await client.request(
+                method=method,
+                url=url,
+                headers=headers,
+                params=params,
+            )
+            response.raise_for_status()
+            return response
+
     async def _fetch_auth_token(self) -> str:
         """Retrieve authentication token from the API."""
         if self._auth_token is not None:
             return self._auth_token
 
-        auth_url = f'{self.base_url}/api/token?client_id={self.client_id}'
+        auth_url = f'{self.base_url}/api/token'
+        params = {'client_id': self.client_id}
         headers = {
             'Authorization': f'Bearer {self.secret_key}',
             'Accept-Encoding': 'identity',
         }
 
-        async with httpx.AsyncClient() as client:
-            response = await client.get(auth_url, headers=headers)
-            response.raise_for_status()
-            self._auth_token = response.text
-            return self._auth_token
+        response = await self._make_request(
+            'GET', auth_url, headers=headers, params=params
+        )
+        self._auth_token = response.text
+        return self._auth_token
 
     async def search(
         self,
@@ -93,12 +118,10 @@ class Client:
 
         headers = {'Authorization': f'Bearer {token}'}
 
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                search_url, params=params, headers=headers
-            )
-            response.raise_for_status()
-            response_data = response.json()
+        response = await self._make_request(
+            'GET', search_url, params=params, headers=headers
+        )
+        response_data = response.json()
 
         matched_persons = [
             Person(**person_data)
