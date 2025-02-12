@@ -68,30 +68,35 @@ class Client:
         token = await self._fetch_auth_token()
 
         # Build base URL with required parameters
-        search_url = (
-            f'{self.base_url}/api/find?client_id={self.client_id}'
-            f'&username={self.username}&percent={match_score}'
-            f'&name={nombre} {paterno} {materno}'
-        )
+        search_url = f'{self.base_url}/api/find'
+
+        params: dict[str, str | int | None] = {
+            'client_id': self.client_id,
+            'username': self.username,
+            'percent': match_score,
+            'name': f'{nombre} {paterno} {materno}',
+        }
 
         # Add optional parameters if provided
         if rfc:
-            search_url += f'&rfc={rfc}'
+            params['rfc'] = rfc
         if curp:
-            search_url += f'&curp={curp}'
+            params['curp'] = curp
         if sex:
-            search_url += f'&sex={sex}'
+            params['sex'] = sex
         if birthday:
-            search_url += f'&birthday={birthday}'
+            params['birthday'] = birthday
         if search_type is not None:
-            search_url += f'&type={search_type}'
+            params['type'] = search_type
         if search_list:
-            search_url += f'&list={search_list}'
+            params['list'] = search_list
 
         headers = {'Authorization': f'Bearer {token}'}
 
         async with httpx.AsyncClient() as client:
-            response = await client.get(search_url, headers=headers)
+            response = await client.get(
+                search_url, params=params, headers=headers
+            )
             response.raise_for_status()
             response_data = response.json()
 
