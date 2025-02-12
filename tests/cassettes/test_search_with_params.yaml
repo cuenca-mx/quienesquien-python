@@ -7,55 +7,6 @@ interactions:
       accept:
       - '*/*'
       accept-encoding:
-      - identity
-      connection:
-      - keep-alive
-      host:
-      - app.q-detect.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
-  response:
-    body:
-      string: DUMMY
-    headers:
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, private
-      Connection:
-      - keep-alive
-      Content-Type:
-      - text/html; charset=UTF-8
-      Date:
-      - Mon, 10 Feb 2025 21:20:03 GMT
-      Server:
-      - nginx/1.18.0 (Ubuntu)
-      Set-Cookie:
-      - AWSALBTG=KHyTsPGl9XkYgL6Zhx3fBOb7tDIoOOqQy9Yz+WgxPl0/mb8fHp0F3uR8LpEEpnIK1Mb72VyibWVgzAlRubvW8kZ+MHaJpOzgoOTCt/OVjR0FSzaRDO6kwkWX2Qi9vxojwNs7rv/6bHhcRKVbrHbvyuyhpvHBCR4x+GlbqO5x5Sd6q5xBGrs=;
-        Expires=Mon, 17 Feb 2025 21:20:03 GMT; Path=/
-      - AWSALBTGCORS=KHyTsPGl9XkYgL6Zhx3fBOb7tDIoOOqQy9Yz+WgxPl0/mb8fHp0F3uR8LpEEpnIK1Mb72VyibWVgzAlRubvW8kZ+MHaJpOzgoOTCt/OVjR0FSzaRDO6kwkWX2Qi9vxojwNs7rv/6bHhcRKVbrHbvyuyhpvHBCR4x+GlbqO5x5Sd6q5xBGrs=;
-        Expires=Mon, 17 Feb 2025 21:20:03 GMT; Path=/; SameSite=None; Secure
-      Transfer-Encoding:
-      - chunked
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      Authorization:
-      - DUMMY
-      accept:
-      - '*/*'
-      accept-encoding:
       - gzip, deflate
       connection:
       - keep-alive
@@ -87,14 +38,14 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Feb 2025 21:20:05 GMT
+      - Wed, 12 Feb 2025 03:52:31 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie:
-      - AWSALBTG=BSVO+6RLlRYVBqxpmaAMiTeLup1twns9p6L+4Gdca0RW8QGsn9EFUGbfKYT9JDcZkHixjwxZkUKwgYs0qH4rs4r6xeukqEGNBbhWVlD9Hcz9811BnLhErk+N+fl7rDXbMAkiyrQiAp/mPG+ud2wZDhr9YT/4SKwVkTsWStARu3Q2/EX8s0g=;
-        Expires=Mon, 17 Feb 2025 21:20:04 GMT; Path=/
-      - AWSALBTGCORS=BSVO+6RLlRYVBqxpmaAMiTeLup1twns9p6L+4Gdca0RW8QGsn9EFUGbfKYT9JDcZkHixjwxZkUKwgYs0qH4rs4r6xeukqEGNBbhWVlD9Hcz9811BnLhErk+N+fl7rDXbMAkiyrQiAp/mPG+ud2wZDhr9YT/4SKwVkTsWStARu3Q2/EX8s0g=;
-        Expires=Mon, 17 Feb 2025 21:20:04 GMT; Path=/; SameSite=None; Secure
+      - AWSALBTG=YvPhy9jiMHuoE3Y4BApEbXB/KNlN0XfRHGk0cialhq27QNTVyrFE74wYtH6M77qCxQauVCH2LPQ34UKg0kq3DTcR0tzvlOG8r9Ra6e5TuKFHi7mlZ20D+eQMxa2ddckLjqz7F5uI6b174xD7TMuaBpn5RAYMM8RD+lxoiAK1z861FICRUIQ=;
+        Expires=Wed, 19 Feb 2025 03:52:30 GMT; Path=/
+      - AWSALBTGCORS=YvPhy9jiMHuoE3Y4BApEbXB/KNlN0XfRHGk0cialhq27QNTVyrFE74wYtH6M77qCxQauVCH2LPQ34UKg0kq3DTcR0tzvlOG8r9Ra6e5TuKFHi7mlZ20D+eQMxa2ddckLjqz7F5uI6b174xD7TMuaBpn5RAYMM8RD+lxoiAK1z861FICRUIQ=;
+        Expires=Wed, 19 Feb 2025 03:52:30 GMT; Path=/; SameSite=None; Secure
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:
