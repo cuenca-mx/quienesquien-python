@@ -1,8 +1,10 @@
+import datetime as dt
 from dataclasses import dataclass
 from typing import Mapping
 
 import httpx
 
+from .enums import Gender, SearchList, SearchType
 from .person import Person
 
 
@@ -70,25 +72,25 @@ class Client:
         match_score: int = 60,  # Default 60, applied even if no value provided
         rfc: str | None = None,
         curp: str | None = None,
-        sex: str | None = None,
-        birthday: str | None = None,
-        search_type: int | None = None,
-        search_list: str | None = None,
+        gender: Gender | None = None,
+        birthday: dt.date | None = None,
+        search_type: SearchType | None = None,
+        search_list: tuple[SearchList, ...] | None = None,
     ) -> SearchResult:
         """Perform a search request and return the results.
 
         Args:
-            nombre: First name(s)
-            paterno: First surname
-            materno: Second surname
-            match_score: Minimum match percentage (default: 60)
-            rfc: Mexican RFC
-            curp: Mexican CURP
-            sex: Gender - 'M' for male, 'F' for female
-            birthday: Date of birth in dd/mm/yyyy format
-            search_type: Type of search - 0 for individual, 1 for company
-            search_list: Comma-separated list of specific lists to search
-               (e.g., 'PPE, PEPINT, VENC') if not provided, searches all
+            nombre (str): First name(s) of the person.
+            paterno (str): First surname.
+            materno (str): Second surname.
+            match_score (int, opt.): Minimum match percentage (default: 60).
+            rfc (str, opt.): Mexican RFC.
+            curp (str, opt.): Mexican CURP.
+            gender (Gender, opt.): masculino or femenino.
+            birthday (datetime.date, opt.): Date of birth.
+            search_type (SearchType, opt.): fisica or moral.
+            search_list (tuple[SearchList, ...], opt.): Lists to search.
+               If not provided, searches all.
         """
         token = await self._fetch_auth_token()
 
@@ -107,14 +109,14 @@ class Client:
             params['rfc'] = rfc
         if curp:
             params['curp'] = curp
-        if sex:
-            params['sex'] = sex
+        if gender:
+            params['sex'] = gender.value
         if birthday:
-            params['birthday'] = birthday
+            params['birthday'] = birthday.strftime('%d/%m/%Y')
         if search_type is not None:
-            params['type'] = search_type
+            params['type'] = search_type.value
         if search_list:
-            params['list'] = search_list
+            params['list'] = ','.join(item.value for item in search_list)
 
         headers = {'Authorization': f'Bearer {token}'}
 
