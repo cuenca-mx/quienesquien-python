@@ -1,4 +1,4 @@
-from dataclasses import dataclass, fields
+from dataclasses import dataclass
 
 import httpx
 
@@ -42,7 +42,7 @@ class Client:
         nombre: str,
         paterno: str,
         materno: str,
-        match_score: int = 60,
+        match_score: int = 60,  # Default 60, applied even if no value provided
         rfc: str | None = None,
         curp: str | None = None,
         sex: str | None = None,
@@ -95,15 +95,8 @@ class Client:
             response.raise_for_status()
             response_data = response.json()
 
-        person_fields = {field.name for field in fields(Person)}
         matched_persons = [
-            Person(
-                **{
-                    k.lower(): v
-                    for k, v in person_data.items()
-                    if v is not None and k.lower() in person_fields
-                }
-            )
+            Person(**person_data)
             for person_data in response_data.get('data', [])
         ]
 
