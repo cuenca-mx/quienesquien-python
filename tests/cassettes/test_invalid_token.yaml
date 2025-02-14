@@ -1,0 +1,52 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Authorization:
+      - DUMMY
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - app.q-detect.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Pepito+Cuenca+&percent=80&username=DUMMY_USERNAME
+  response:
+    body:
+      string: '{"success":false,"status":"El token proporcionado para realizar esta
+        acci\u00f3n es inv\u00e1lido"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 13 Feb 2025 23:00:57 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=Hyn0iWazQtqFh5uC3sNGLah/2PXFHqrNTUFdW+jE5hzdRYuqEbydDrMDL/rqY2dCftEPmeHc4QL4QmaPOYlIs3yjQPYCseTSMOxqXZm0HyRXHXC0lxYXkyaWfLX04g1XyDHzqexIgpGvIVvPD0yr1ZkgEuGcjeg1LPeoBBZSwols/2PTasA=;
+        Expires=Thu, 20 Feb 2025 23:00:57 GMT; Path=/
+      - AWSALBTGCORS=Hyn0iWazQtqFh5uC3sNGLah/2PXFHqrNTUFdW+jE5hzdRYuqEbydDrMDL/rqY2dCftEPmeHc4QL4QmaPOYlIs3yjQPYCseTSMOxqXZm0HyRXHXC0lxYXkyaWfLX04g1XyDHzqexIgpGvIVvPD0yr1ZkgEuGcjeg1LPeoBBZSwols/2PTasA=;
+        Expires=Thu, 20 Feb 2025 23:00:57 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

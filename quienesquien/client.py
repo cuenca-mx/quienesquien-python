@@ -5,14 +5,35 @@ from typing import Mapping
 import httpx
 
 from .enums import Gender, SearchList, SearchType
+from .exc import (
+    InsufficientBalanceError,
+    InvalidPlanError,
+    InvalidSearchCriteriaError,
+    InvalidTokenError,
+    PersonNotFoundError,
+    QuienEsQuienError,
+)
 from .person import Person
 
+NOT_FOUND_ERROR_RESPONSE = 'No se han encontrado coincidencias'
+INVALID_RFC_ERROR_RESPONSE = 'El RFC no es válido'
+INVALID_TOKEN_ERROR_RESPONSE = (
+    'El token proporcionado para realizar esta acción es inválido'
+)
+INVALID_PLAN_ERROR_RESPONSE = (
+    'Tu plan de consultas ha expirado, '
+    'por favor actualiza tu plan para continuar usando la API'
+)
+INSUFFICIENT_BALANCE_ERROR_RESPONSE = (
+    'No se puede realizar la búsqueda, saldo insuficiente'
+)
 
-@dataclass
-class SearchResult:
-    success: bool
-    num_registros: int
-    persons: list[Person]
+ERROR_RESPONSE_MAPPING = {
+    NOT_FOUND_ERROR_RESPONSE: PersonNotFoundError,
+    INVALID_TOKEN_ERROR_RESPONSE: InvalidTokenError,
+    INVALID_PLAN_ERROR_RESPONSE: InvalidPlanError,
+    INSUFFICIENT_BALANCE_ERROR_RESPONSE: InsufficientBalanceError,
+}
 
 
 @dataclass
@@ -43,7 +64,6 @@ class Client:
                 headers=headers,
                 params=params,
             )
-            response.raise_for_status()
             return response
 
     async def _fetch_auth_token(self) -> str:
@@ -66,9 +86,9 @@ class Client:
 
     async def search(
         self,
-        nombre: str,
-        paterno: str,
-        materno: str,
+        nombre: str | None = None,
+        paterno: str | None = None,
+        materno: str | None = None,
         match_score: int = 60,  # Default 60, applied even if no value provided
         rfc: str | None = None,
         curp: str | None = None,
@@ -76,22 +96,37 @@ class Client:
         birthday: dt.date | None = None,
         search_type: SearchType | None = None,
         search_list: tuple[SearchList, ...] | None = None,
-    ) -> SearchResult:
+    ) -> list[Person]:
         """Perform a search request and return the results.
 
         Args:
             nombre (str): First name(s) of the person.
             paterno (str): First surname.
             materno (str): Second surname.
-            match_score (int, opt.): Minimum match percentage (default: 60).
-            rfc (str, opt.): Mexican RFC.
-            curp (str, opt.): Mexican CURP.
-            gender (Gender, opt.): masculino or femenino.
-            birthday (datetime.date, opt.): Date of birth.
-            search_type (SearchType, opt.): fisica or moral.
-            search_list (tuple[SearchList, ...], opt.): Lists to search.
+            match_score (int): Minimum match percentage (default: 60).
+            rfc (str): Mexican RFC.
+            curp (str): Mexican CURP.
+            gender (Gender): masculino or femenino.
+            birthday (datetime.date): Date of birth.
+            search_type (SearchType): fisica or moral.
+            search_list (tuple[SearchList, ...]): Lists to search.
                If not provided, searches all.
+
+            The search is hierarchical: it first looks for a match by RFC,
+            then by CURP if RFC is not found, and finally by name if
+            neither is found.
+
         """
+        # Validate search criteria
+        by_name = all(
+            [nombre is not None, paterno is not None, materno is not None]
+        )
+        by_rfc = rfc is not None
+        by_curp = curp is not None
+
+        if not (by_name or by_rfc or by_curp):
+            raise InvalidSearchCriteriaError
+
         token = await self._fetch_auth_token()
 
         # Build base URL with required parameters
@@ -101,10 +136,10 @@ class Client:
             'client_id': self.client_id,
             'username': self.username,
             'percent': match_score,
-            'name': f'{nombre} {paterno} {materno}',
         }
 
-        # Add optional parameters if provided
+        if by_name:
+            params['name'] = f'{nombre} {paterno} {materno}'
         if rfc:
             params['rfc'] = rfc
         if curp:
@@ -125,13 +160,18 @@ class Client:
         )
         response_data = response.json()
 
+        if not response_data.get('success', False):
+            status = response_data.get('status', '')
+
+            for error_response, error_class in ERROR_RESPONSE_MAPPING.items():
+                if error_response in status:
+                    raise error_class
+
+            raise QuienEsQuienError(response)
+
         matched_persons = [
             Person(**person_data)
             for person_data in response_data.get('data', [])
         ]
 
-        return SearchResult(
-            success=response_data.get('success', False),
-            num_registros=len(matched_persons),
-            persons=matched_persons,
-        )
+        return matched_persons

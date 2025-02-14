@@ -1,0 +1,60 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Authorization:
+      - DUMMY
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - app.q-detect.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://app.q-detect.com/api/find?birthday=13%2F11%2F1953&client_id=DUMMY_CLIENT_ID&curp=LOOA531113HTCPBN07&list=PPE%2CONU&percent=85&sex=M&type=0&username=DUMMY_USERNAME
+  response:
+    body:
+      string: '{"success":true,"data":[{"NOMBRECOMP":"Andres Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","ID_PERSONA":"QEQ0281252","NOMBRE":"Andres
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Inactivo","DEPENDENCIA":"PRESIDENCIA
+        DE LA REPUBLICA","PUESTO":"Presidente de los Estados Unidos Mexicanos","AREA":"Presidencia
+        de la Rep\u00fablica","IDDISPO":1111,"INGRESOS":"129432","APELLIDOS":"L\u00f3pez
+        Obrador","ENTIDAD":"Ciudad de M\u00e9xico","FECHA_CARGO_INI":"01\/12\/2018","FECHA_CARGO_FIN":"30\/09\/2024","facebook_DESCRIPCION":"\/lopezobrador.org.mx","twitter_DESCRIPCION":"@lopezobrador_","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Ambito
+        Federal\/Poder Ejecutivo Federal\/Administraci\u00f3n P\u00fablica Centralizada"},{"NOMBRECOMP":"Andres
+        Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","IDREL":"QEQ0242614","ID_PERSONA":"QEQ0380101","NOMBRE":"Andres
+        Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Activo","PUESTO":"OTRO","IDDISPO":6,"PARENTESCO":"CU\u00d1ADO","APELLIDOS":"L\u00f3pez
+        Obrador","FECHA_CARGO_INI":"22\/11\/2022","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Familiares
+        PPE''s"}]}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 13 Feb 2025 22:37:09 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie:
+      - AWSALBTG=J2efjbsJAz/+yLPQMuKZstTkcGo6Bknv7fRinWHZsOYp/QIwjKrdWn4KbAesP0xiHyc3+53Z2XPVk8Hu8gdPrjdwX6AkfsXs6vzbT0UuUsPvCTKXv/XIgXTBXroA3oLNcBKGZdaTVrIKq6JaVnjfWWw7MwdXImiKBLTncHspNQ3jFPYN1qo=;
+        Expires=Thu, 20 Feb 2025 22:37:08 GMT; Path=/
+      - AWSALBTGCORS=J2efjbsJAz/+yLPQMuKZstTkcGo6Bknv7fRinWHZsOYp/QIwjKrdWn4KbAesP0xiHyc3+53Z2XPVk8Hu8gdPrjdwX6AkfsXs6vzbT0UuUsPvCTKXv/XIgXTBXroA3oLNcBKGZdaTVrIKq6JaVnjfWWw7MwdXImiKBLTncHspNQ3jFPYN1qo=;
+        Expires=Thu, 20 Feb 2025 22:37:08 GMT; Path=/; SameSite=None; Secure
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

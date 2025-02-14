@@ -7,3 +7,4 @@ flake8==7.*
 mypy==1.*
 types-requests==2.*
 pytest-asyncio==0.25.*
+pytest-mock==3.*
