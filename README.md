@@ -92,6 +92,4 @@ If no match is found, it searches by CURP. Finally, if neither is found, it look
 You must specify at least one search parameter: name (including first nombre, paterno and materno), RFC or CURP.
 
 ## Response Structure
-- `success` (bool): `True` if the search was successful and records were found.
-- `num_registros` (int): Number of records found.
 - `persons` (list): List of matched persons.
