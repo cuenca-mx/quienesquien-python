@@ -1,5 +1,5 @@
 import datetime as dt
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Mapping
 
 import httpx
@@ -43,10 +43,13 @@ class Client:
     client_id: str
     secret_key: str
     _auth_token: str | None = None
+    _client: httpx.AsyncClient = field(
+        default_factory=httpx.AsyncClient, init=False
+    )
 
-    async def _get_client(self) -> httpx.AsyncClient:
-        """Create and return an httpx.AsyncClient instance."""
-        return httpx.AsyncClient()
+    def _invalidate_auth_token(self) -> None:
+        """Clear the stored authentication token."""
+        self._auth_token = None
 
     async def _make_request(
         self,
@@ -57,14 +60,10 @@ class Client:
         params: Mapping[str, str | int | None] | None = None,
     ) -> httpx.Response:
         """Make an HTTP request using an async client."""
-        async with await self._get_client() as client:
-            response = await client.request(
-                method=method,
-                url=url,
-                headers=headers,
-                params=params,
-            )
-            return response
+        response = await self._client.request(
+            method, url, headers=headers, params=params
+        )
+        return response
 
     async def _fetch_auth_token(self) -> str:
         """Retrieve authentication token from the API."""
@@ -161,13 +160,13 @@ class Client:
         response_data = response.json()
 
         if not response_data.get('success', False):
-            status = response_data.get('status', '')
+            error_class = ERROR_RESPONSE_MAPPING.get(
+                response_data.get('status', ''), QuienEsQuienError
+            )
+            if error_class is InvalidTokenError:
+                self._invalidate_auth_token()
 
-            for error_response, error_class in ERROR_RESPONSE_MAPPING.items():
-                if error_response in status:
-                    raise error_class
-
-            raise QuienEsQuienError(response)
+            raise error_class(response)
 
         matched_persons = [
             Person(**person_data)

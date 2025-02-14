@@ -65,6 +65,7 @@ async def test_invalid_token(client: Client, mocker) -> None:
     )
     with pytest.raises(InvalidTokenError):
         await client.search('Pepito', 'Cuenca', '', 80)
+    assert client._auth_token is None
 
 
 async def test_invalid_plan(client: Client, mocker) -> None:
