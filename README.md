@@ -37,6 +37,7 @@ export QEQ_SECRET_ID=your_secret_key
 ```python
 import os
 from quienesquien import Client
+from quienesquien.enums import Gender, SearchList, SearchType
 from quienesquien.exc import (
     InsufficientBalanceError,
     InvalidPlanError,
@@ -56,7 +57,12 @@ try:
         paterno='Lopez',
         materno='Obrador',
         match_score=85,
-        search_list='PPE',
+        rfc='LOOA531113F15',
+        curp='LOOA531113HTCPBN07',
+        gender=Gender.masculino,
+        birthday=dt.date(1953, 11, 13),
+        search_type=SearchType.fisica,
+        search_list=(SearchList.PPE, SearchList.ONU),
     )
 except InsufficientBalanceError:
     print('Saldo insuficiente')
@@ -83,7 +89,7 @@ except PersonNotFoundError:
 
 The search follows a hierarchical approach: it first attempts to find a match using the RFC.
 If no match is found, it searches by CURP. Finally, if neither is found, it looks for a match by name.
-You must specify at least one search parameter: name (including first nonbre, paterno, and materno), RFC, or CURP.
+You must specify at least one search parameter: name (including first nombre, paterno and materno), RFC or CURP.
 
 ## Response Structure
 - `success` (bool): `True` if the search was successful and records were found.
