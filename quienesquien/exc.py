@@ -19,7 +19,7 @@ class PersonNotFoundError(QuienEsQuienError):
 
 class InvalidTokenError(QuienEsQuienError):
     """
-    Lanzado cuando el token proporcionado para realizar la búsqueda es inválido.
+    Lanzado cuando el token utilizado para realizar la búsqueda es inválido.
     """
 
 

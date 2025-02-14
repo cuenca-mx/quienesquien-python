@@ -15,7 +15,7 @@ def client() -> Generator[Client, None, None]:
     yield Client(QEQ_USER, QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def vcr_config() -> dict[str, Any]:
 
     def filter_token(request):
@@ -23,14 +23,14 @@ def vcr_config() -> dict[str, Any]:
             return None
         return request
 
-    config: dict[str, Any] = dict()
-    config['filter_headers'] = [
-        ('Authorization', 'DUMMY'),
-    ]
-    config['filter_query_parameters'] = [
-        ('client_id', 'DUMMY_CLIENT_ID'),
-        ('username', 'DUMMY_USERNAME'),
-    ]
-
-    config['before_record_request'] = filter_token
+    config: dict[str, Any] = {
+        'filter_headers': [
+            ('Authorization', 'DUMMY'),
+        ],
+        'filter_query_parameters': [
+            ('client_id', 'DUMMY_CLIENT_ID'),
+            ('username', 'DUMMY_USERNAME'),
+        ],
+        'before_record_request': filter_token,
+    }
     return config
