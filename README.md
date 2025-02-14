@@ -37,6 +37,12 @@ export QEQ_SECRET_ID=your_secret_key
 ```python
 import os
 from quienesquien import Client
+from quienesquien.exc import (
+    InsufficientBalanceError,
+    InvalidPlanError,
+    InvalidTokenError,
+    PersonNotFoundError,
+)
 
 client = Client(
     os.environ['QEQ_USER'],
@@ -44,52 +50,40 @@ client = Client(
     os.environ['QEQ_SECRET_ID'],
 )
 
-response = await client.search(
-    nombre='Andres Manuel',
-    paterno='Lopez',
-    materno='Obrador',
-    match_score=85,
-    rfc='LOOA531113F15',
-    curp='LOOA531113HTCPBN07',
-    sex='M',
-    birthday='13/11/1953',
-    search_type=0,
-    search_list='PPE',
-)
-
-if response.success:
-    print(f'Found {response.num_registros} records')
-    for person in response.persons:
-        print(f'Name: {person.nombrecomp} - Match: {person.coincidencia}%')
-else:
-    print('No records found')
-
-response = await client.search(
-    nombre='Pepito',
-    paterno='Cuenca',
-    materno='',
-    match_score=85,
-)
-
-if response.success:
-    print(f'Found {response.num_registros} records')
-    for person in response.persons:
-        print(f'Name: {person.nombrecomp} - Match: {person.coincidencia}%')
-else:
-    print('No records found')
+try:
+    persons = await client.search(
+        nombre='Andres Manuel',
+        paterno='Lopez',
+        materno='Obrador',
+        match_score=85,
+        search_list='PPE',
+    )
+except InsufficientBalanceError:
+    print('Saldo insuficiente')
+except InvalidPlanError:
+    print('Plan inválido')
+except InvalidTokenError:
+    print('Token inválido')
+except PersonNotFoundError:
+    persons = []
 ```
 
 ## Search Parameters
-- `nombre` (required): First name(s), case and accent insensitive.
-- `paterno` (required): First surname, case and accent insensitive.
-- `materno` (required): Second surname, case and accent insensitive.
-- `match_score` (optional): Minimum match percentage (default: 60).
-- `rfc` (optional): Mexican RFC.
-- `curp` (optional): Mexican CURP.
-- `sex` (optional): Gender ('M' for male, 'F' for female).
-- `birthday` (optional): Date of birth (dd/mm/yyyy).
-- `search_type` (optional): Search type (0 for individuals, 1 for companies).
-- `search_list` (optional): Comma-separated list of specific lists to search (e.g., 'PPE,PEPINT,VENC'). Defaults to all lists.
+- `nombre` (str): First name(s) of the person.
+- `paterno` (str): First surname.
+- `materno` (str): Second surname.
+- `match_score` (int): Minimum match percentage (default: 60).
+- `rfc` (str): Mexican RFC.
+- `curp` (str): Mexican CURP.
+- `gender` (Gender): masculino or femenino.
+- `birthday` (datetime.date): Date of birth.
+- `search_type` (SearchType): fisica or moral.
+- `search_list` (tuple[SearchList, ...]): Lists to search.
+    If not provided, searches all.
+
+The search follows a hierarchical approach: it first attempts to find a match using the RFC.
+If no match is found, it searches by CURP. Finally, if neither is found, it looks for a match by name.
+You must specify at least one search parameter: name (including first nonbre, paterno, and materno), RFC, or CURP.
 
 ## Response Structure
 - `success` (bool): `True` if the search was successful and records were found.
