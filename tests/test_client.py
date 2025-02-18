@@ -17,12 +17,12 @@ from quienesquien.exc import (
 @pytest.mark.vcr
 async def test_search_not_found(client: Client) -> None:
     with pytest.raises(PersonNotFoundError):
-        await client.search('Pepito', 'Cuenca', '', 80)
+        await client.search('Pepito Cuenca ', 80)
 
 
 @pytest.mark.vcr
 async def test_search_by_name(client: Client) -> None:
-    resp = await client.search('Andres Manuel', 'Lopez', 'Obrador', 80)
+    resp = await client.search('Andres Manuel Lopez Obrador', 80)
     assert len(resp) != 0
 
 
@@ -42,9 +42,7 @@ async def test_search_by_curp(client: Client) -> None:
 @pytest.mark.vcr
 async def test_search_with_params(client: Client) -> None:
     resp = await client.search(
-        nombre='Andres Manuel',
-        paterno='Lopez',
-        materno='Obrador',
+        full_name='Andres Manuel Lopez Obrador',
         match_score=85,
         rfc='LOOA531113F15',
         curp='LOOA531113HTCPBN07',
@@ -64,7 +62,7 @@ async def test_invalid_token(client: Client, mocker) -> None:
         client, '_fetch_auth_token', return_value=mock_response
     )
     with pytest.raises(InvalidTokenError):
-        await client.search('Pepito', 'Cuenca', '', 80)
+        await client.search('Pepito Cuenca', 80)
     assert client._auth_token is None
 
 
@@ -79,7 +77,7 @@ async def test_invalid_plan(client: Client, mocker) -> None:
     }
     mocker.patch.object(client, '_make_request', return_value=mock_response)
     with pytest.raises(InvalidPlanError):
-        await client.search('Pepito', 'Cuenca', '', 80)
+        await client.search('Pepito Cuenca', 80)
 
 
 async def test_insufficient_balance(client: Client, mocker) -> None:
@@ -91,7 +89,7 @@ async def test_insufficient_balance(client: Client, mocker) -> None:
     mocker.patch.object(client, '_make_request', return_value=mock_response)
 
     with pytest.raises(InsufficientBalanceError):
-        await client.search('Pepito', 'Cuenca', '', 80)
+        await client.search('Pepito Cuenca', 80)
 
 
 async def test_http_error(client: Client, mocker) -> None:
@@ -103,7 +101,7 @@ async def test_http_error(client: Client, mocker) -> None:
     mocker.patch.object(client, '_make_request', return_value=mock_response)
 
     with pytest.raises(QuienEsQuienError):
-        await client.search('Pepito', 'Cuenca', '', 80)
+        await client.search('Pepito Cuenca', 80)
 
 
 async def test_invalid_search_criteria(client: Client) -> None:

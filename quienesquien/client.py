@@ -85,9 +85,7 @@ class Client:
 
     async def search(
         self,
-        nombre: str | None = None,
-        paterno: str | None = None,
-        materno: str | None = None,
+        full_name: str | None = None,
         match_score: int = 60,  # Default 60, applied even if no value provided
         rfc: str | None = None,
         curp: str | None = None,
@@ -99,9 +97,7 @@ class Client:
         """Perform a search request and return the results.
 
         Args:
-            nombre (str): First name(s) of the person.
-            paterno (str): First surname.
-            materno (str): Second surname.
+            full_name (str): Full name of the person.
             match_score (int): Minimum match percentage (default: 60).
             rfc (str): Mexican RFC.
             curp (str): Mexican CURP.
@@ -117,9 +113,7 @@ class Client:
 
         """
         # Validate search criteria
-        by_name = all(
-            [nombre is not None, paterno is not None, materno is not None]
-        )
+        by_name = full_name is not None
         by_rfc = rfc is not None
         by_curp = curp is not None
 
@@ -138,7 +132,7 @@ class Client:
         }
 
         if by_name:
-            params['name'] = f'{nombre} {paterno} {materno}'
+            params['name'] = full_name
         if rfc:
             params['rfc'] = rfc
         if curp:

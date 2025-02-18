@@ -53,9 +53,7 @@ client = Client(
 
 try:
     persons = await client.search(
-        nombre='Andres Manuel',
-        paterno='Lopez',
-        materno='Obrador',
+        full_name='Andres Manuel Lopez Obrador',
         match_score=85,
         rfc='LOOA531113F15',
         curp='LOOA531113HTCPBN07',
@@ -75,9 +73,7 @@ except PersonNotFoundError:
 ```
 
 ## Search Parameters
-- `nombre` (str): First name(s) of the person.
-- `paterno` (str): First surname.
-- `materno` (str): Second surname.
+- `full_name` (str): Full name of the person.
 - `match_score` (int): Minimum match percentage (default: 60).
 - `rfc` (str): Mexican RFC.
 - `curp` (str): Mexican CURP.
@@ -89,7 +85,7 @@ except PersonNotFoundError:
 
 The search follows a hierarchical approach: it first attempts to find a match using the RFC.
 If no match is found, it searches by CURP. Finally, if neither is found, it looks for a match by name.
-You must specify at least one search parameter: name (including first nombre, paterno and materno), RFC or CURP.
+You must specify at least one search parameter: full_name, rfc or curp.
 
 ## Response Structure
 - `persons` (list): List of matched persons.
