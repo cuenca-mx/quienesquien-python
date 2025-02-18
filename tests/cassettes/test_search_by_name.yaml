@@ -27,7 +27,7 @@ interactions:
         Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","IDREL":"QEQ0242614","ID_PERSONA":"QEQ0380101","NOMBRE":"Andres
         Manuel","PATERNO":"L\u00f3pez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","SEXO":"Masculino","LISTA":"PPE","ESTATUS":"Activo","PUESTO":"OTRO","IDDISPO":6,"PARENTESCO":"CU\u00d1ADO","APELLIDOS":"L\u00f3pez
         Obrador","FECHA_CARGO_INI":"22\/11\/2022","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP","DISPOSICION":"Familiares
-        PPE''s"},{"NOMBRECOMP":"Andres Manuel Lopez Obrador","ID_PERSONA":"PEPINT00009490","NOMBRE":"Andres
+        PPE''s"},{"NOMBRECOMP":"Andres Manuel Lopez Obrador","ID_PERSONA":"PEPINT00009923","NOMBRE":"Andres
         Manuel","PATERNO":"Lopez","MATERNO":"Obrador","FECHA_NACIMIENTO":"13\/11\/1953","LISTA":"PEPINT","ESTATUS":"Inactivo","PUESTO":"Presidente","AREA":"Pres.","APELLIDOS":"Lopez
         Obrador","PAIS":"Mexico","COINCIDENCIA":100,"CATEGORIA_RIESGO":"PEP"},{"NOMBRECOMP":"Andr\u00e9s
         Manuel L\u00f3pez Beltr\u00e1n","IDREL":"QEQ0281252","ID_PERSONA":"QEQ0281542","NOMBRE":"Andr\u00e9s
@@ -44,14 +44,10 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 12 Feb 2025 03:52:29 GMT
+      - Tue, 18 Feb 2025 23:05:47 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
-      Set-Cookie:
-      - AWSALBTG=1fdZbEM6CWXaoa3MtjU3nYWy+zdoPhQEV7jCwHivIEfxKSmSFUaeCxsmNc3TaCQBY4O8zZHZv6XfnvyQ+1hTBdDY4MLRocSsQ0k3+jbHTatm7HVbjjBYw4erFLavZmSZg2z0/edcW9u8KQC10pV7rplM9j8I1OZC7LHVn1yJQrh5cTalhp0=;
-        Expires=Wed, 19 Feb 2025 03:52:28 GMT; Path=/
-      - AWSALBTGCORS=1fdZbEM6CWXaoa3MtjU3nYWy+zdoPhQEV7jCwHivIEfxKSmSFUaeCxsmNc3TaCQBY4O8zZHZv6XfnvyQ+1hTBdDY4MLRocSsQ0k3+jbHTatm7HVbjjBYw4erFLavZmSZg2z0/edcW9u8KQC10pV7rplM9j8I1OZC7LHVn1yJQrh5cTalhp0=;
-        Expires=Wed, 19 Feb 2025 03:52:28 GMT; Path=/; SameSite=None; Secure
+      Set-Cookie: DUMMY
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:

@@ -29,14 +29,10 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 12 Feb 2025 03:52:28 GMT
+      - Tue, 18 Feb 2025 23:05:26 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
-      Set-Cookie:
-      - AWSALBTG=1jUXWWyV1vr/pgqOd9lfaWswEw1XXrqGK0EQ0RC6SGdm8HNGUUv1Ornd188U2OX2duP7atbBIOCInQltipp8tH7RBC3szshYUr2v9xRcl11CVHeTdaBmxd2eG4GjJaLoNzR5NYK9fq458p5cOnWr3G1/OSUFHzZrsaQisGkG8SQGgoh7n4k=;
-        Expires=Wed, 19 Feb 2025 03:52:27 GMT; Path=/
-      - AWSALBTGCORS=1jUXWWyV1vr/pgqOd9lfaWswEw1XXrqGK0EQ0RC6SGdm8HNGUUv1Ornd188U2OX2duP7atbBIOCInQltipp8tH7RBC3szshYUr2v9xRcl11CVHeTdaBmxd2eG4GjJaLoNzR5NYK9fq458p5cOnWr3G1/OSUFHzZrsaQisGkG8SQGgoh7n4k=;
-        Expires=Wed, 19 Feb 2025 03:52:27 GMT; Path=/; SameSite=None; Secure
+      Set-Cookie: DUMMY
       Transfer-Encoding:
       - chunked
       X-Content-Type-Options:

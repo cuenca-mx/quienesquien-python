@@ -18,6 +18,10 @@ def client() -> Generator[Client, None, None]:
 @pytest.fixture(scope='session')
 def vcr_config() -> dict[str, Any]:
 
+    def filter_set_cookie_header(response):
+        response['headers']['Set-Cookie'] = 'DUMMY'
+        return response
+
     def filter_token(request):
         if request.path == '/api/token':
             return None
@@ -26,11 +30,13 @@ def vcr_config() -> dict[str, Any]:
     config: dict[str, Any] = {
         'filter_headers': [
             ('Authorization', 'DUMMY'),
+            ('cookie', None),
         ],
         'filter_query_parameters': [
             ('client_id', 'DUMMY_CLIENT_ID'),
             ('username', 'DUMMY_USERNAME'),
         ],
         'before_record_request': filter_token,
+        'before_record_response': filter_set_cookie_header,
     }
     return config
