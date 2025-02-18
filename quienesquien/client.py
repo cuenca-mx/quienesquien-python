@@ -150,7 +150,7 @@ class Client:
         if search_type is not None:
             params['type'] = search_type.value
         if search_list:
-            params['list'] = ','.join(item.value for item in search_list)
+            params['list'] = ','.join(search_list)
 
         headers = {'Authorization': f'Bearer {token}'}
 
