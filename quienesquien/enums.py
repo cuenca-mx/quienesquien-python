@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class SearchType(str, Enum):
+class SearchType(int, Enum):
     fisica = 0
     moral = 1
 
