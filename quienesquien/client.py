@@ -23,9 +23,6 @@ INVALID_PLAN_ERROR_RESPONSE = (
     'Tu plan de consultas ha expirado, '
     'por favor actualiza tu plan para continuar usando la API'
 )
-INSUFFICIENT_BALANCE_ERROR_RESPONSE = (
-    'No se puede realizar la búsqueda, saldo insuficiente'
-)
 
 
 @dataclass
@@ -148,8 +145,10 @@ class Client:
         except httpx.HTTPStatusError as exc:
             if exc.response.status_code == 401:
                 self._invalidate_auth_token()
-                raise InvalidTokenError(response)
-            raise QuienEsQuienError(response)
+                raise InvalidTokenError(exc.response)
+            if exc.response.status_code == 403:
+                raise InsufficientBalanceError(exc.response)
+            raise QuienEsQuienError(exc.response)
 
         response_data = response.json()
         if not response_data.get('success', False):
@@ -161,8 +160,6 @@ class Client:
                 raise InvalidTokenError(response)
             if status == INVALID_PLAN_ERROR_RESPONSE:
                 raise InvalidPlanError(response)
-            if status == INSUFFICIENT_BALANCE_ERROR_RESPONSE:
-                raise InsufficientBalanceError(response)
             raise QuienEsQuienError(response)
 
         matched_persons = [

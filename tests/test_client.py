@@ -55,6 +55,14 @@ async def test_search_with_params(client: Client) -> None:
 
 
 @pytest.mark.vcr
+async def test_reusable_token(client: Client) -> None:
+    resp1 = await client.search('Andres Manuel Lopez Obrador', 80)
+    resp2 = await client.search('Marcelo Luis Ebrard Casaubón', 80)
+    assert len(resp1) != 0
+    assert len(resp2) != 0
+
+
+@pytest.mark.vcr
 async def test_invalid_token(client: Client, mocker) -> None:
     mock_response = mocker.Mock()
     mock_response.text = 'invalid_token'
@@ -66,29 +74,27 @@ async def test_invalid_token(client: Client, mocker) -> None:
     assert client._auth_token is None
 
 
-async def test_invalid_plan(client: Client, mocker) -> None:
-    mock_response = mocker.Mock()
-    mock_response.json.return_value = {
-        'success': False,
-        'status': (
-            'Tu plan de consultas ha expirado, '
-            'por favor actualiza tu plan para continuar usando la API'
-        ),
-    }
-    mocker.patch.object(client, '_make_request', return_value=mock_response)
+async def test_invalid_plan(client: Client, invalid_plan_mock) -> None:
     with pytest.raises(InvalidPlanError):
         await client.search('Pepito Cuenca', 80)
 
 
-async def test_insufficient_balance(client: Client, mocker) -> None:
-    mock_response = mocker.Mock()
-    mock_response.json.return_value = {
-        'success': False,
-        'status': 'No se puede realizar la búsqueda, saldo insuficiente',
-    }
-    mocker.patch.object(client, '_make_request', return_value=mock_response)
-
+async def test_insufficient_balance(
+    client: Client, insufficient_balance_mock
+) -> None:
     with pytest.raises(InsufficientBalanceError):
+        await client.search('Pepito Cuenca', 80)
+
+
+async def test_block_account(client: Client, block_account_mock) -> None:
+    with pytest.raises(InvalidTokenError):
+        await client.search('Pepito Cuenca', 80)
+
+
+async def test_internal_server_error(
+    client: Client, internal_server_error_mock
+) -> None:
+    with pytest.raises(QuienEsQuienError):
         await client.search('Pepito Cuenca', 80)
 
 
