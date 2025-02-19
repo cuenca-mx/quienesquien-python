@@ -17,89 +17,43 @@ async def client() -> AsyncGenerator[Client, None]:
     yield Client(QEQ_USER, QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 
-@pytest.fixture
-def insufficient_balance_mock():
-    with respx.mock(
-        base_url='https://app.q-detect.com',
-        assert_all_called=False,
-        assert_all_mocked=False,
-    ) as respx_mock:
-        find_route = respx_mock.get('/api/find')
-        find_route.return_value = Response(
-            403,
-            json={
-                'success': False,
-                'status': (
-                    'No se puede realizar la búsqueda, ' 'saldo insuficiente'
-                ),
-            },
-        )
-        ...
-        yield respx_mock
+def create_mock_response(status_code: int, message: str):
+    """Helper function to create a respx mock fixture."""
+
+    @pytest.fixture
+    def _mock():
+        with respx.mock(
+            base_url='https://app.q-detect.com',
+            assert_all_called=False,
+            assert_all_mocked=False,
+        ) as respx_mock:
+            find_route = respx_mock.get('/api/find')
+            find_route.return_value = Response(
+                status_code,
+                json={'success': False, 'status': message},
+            )
+            yield respx_mock
+
+    return _mock
 
 
-@pytest.fixture
-def invalid_plan_mock():
-    with respx.mock(
-        base_url='https://app.q-detect.com',
-        assert_all_called=False,
-        assert_all_mocked=False,
-    ) as respx_mock:
-        find_route = respx_mock.get('/api/find')
-        find_route.return_value = Response(
-            200,
-            json={
-                'success': False,
-                'status': (
-                    'Tu plan de consultas ha expirado, '
-                    'por favor actualiza tu plan para continuar '
-                    'usando la API'
-                ),
-            },
-        )
-        ...
-        yield respx_mock
+insufficient_balance_mock = create_mock_response(
+    403, 'No se puede realizar la búsqueda, saldo insuficiente'
+)
 
+invalid_plan_mock = create_mock_response(
+    200,
+    'Tu plan de consultas ha expirado, '
+    'por favor actualiza tu plan para continuar usando la API',
+)
 
-@pytest.fixture
-def block_account_mock():
-    with respx.mock(
-        base_url='https://app.q-detect.com',
-        assert_all_called=False,
-        assert_all_mocked=False,
-    ) as respx_mock:
-        find_route = respx_mock.get('/api/find')
-        find_route.return_value = Response(
-            401,
-            json={
-                'success': False,
-                'status': (
-                    'El token proporcionado para realizar esta '
-                    'acción es inválido'
-                ),
-            },
-        )
-        ...
-        yield respx_mock
+block_account_mock = create_mock_response(
+    401, 'El token proporcionado para realizar esta acción es inválido'
+)
 
-
-@pytest.fixture
-def internal_server_error_mock():
-    with respx.mock(
-        base_url='https://app.q-detect.com',
-        assert_all_called=False,
-        assert_all_mocked=False,
-    ) as respx_mock:
-        find_route = respx_mock.get('/api/find')
-        find_route.return_value = Response(
-            500,
-            json={
-                'success': False,
-                'status': 'No se ha podido crear token',
-            },
-        )
-        ...
-        yield respx_mock
+internal_server_error_mock = create_mock_response(
+    500, 'No se ha podido crear token'
+)
 
 
 @pytest.fixture(scope='session')
