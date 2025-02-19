@@ -132,7 +132,7 @@ class Client:
         if birthday:
             params['birthday'] = birthday.strftime('%d/%m/%Y')
         if search_type is not None:
-            params['type'] = search_type
+            params['type'] = search_type.value
         if search_list:
             params['list'] = ','.join(search_list)
 
