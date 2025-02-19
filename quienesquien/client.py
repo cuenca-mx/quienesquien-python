@@ -16,7 +16,6 @@ from .exc import (
 from .person import Person
 
 NOT_FOUND_ERROR_RESPONSE = 'No se han encontrado coincidencias'
-INVALID_RFC_ERROR_RESPONSE = 'El RFC no es válido'
 INVALID_TOKEN_ERROR_RESPONSE = (
     'El token proporcionado para realizar esta acción es inválido'
 )
@@ -27,13 +26,6 @@ INVALID_PLAN_ERROR_RESPONSE = (
 INSUFFICIENT_BALANCE_ERROR_RESPONSE = (
     'No se puede realizar la búsqueda, saldo insuficiente'
 )
-
-ERROR_RESPONSE_MAPPING = {
-    NOT_FOUND_ERROR_RESPONSE: PersonNotFoundError,
-    INVALID_TOKEN_ERROR_RESPONSE: InvalidTokenError,
-    INVALID_PLAN_ERROR_RESPONSE: InvalidPlanError,
-    INSUFFICIENT_BALANCE_ERROR_RESPONSE: InsufficientBalanceError,
-}
 
 
 @dataclass
@@ -63,6 +55,7 @@ class Client:
         response = await self._client.request(
             method, url, headers=headers, params=params
         )
+        response.raise_for_status()
         return response
 
     async def _fetch_auth_token(self) -> str:
@@ -148,19 +141,29 @@ class Client:
 
         headers = {'Authorization': f'Bearer {token}'}
 
-        response = await self._make_request(
-            'GET', search_url, params=params, headers=headers
-        )
-        response_data = response.json()
-
-        if not response_data.get('success', False):
-            error_class = ERROR_RESPONSE_MAPPING.get(
-                response_data.get('status', ''), QuienEsQuienError
+        try:
+            response = await self._make_request(
+                'GET', search_url, params=params, headers=headers
             )
-            if error_class is InvalidTokenError:
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code == 401:
                 self._invalidate_auth_token()
+                raise InvalidTokenError(response)
+            raise QuienEsQuienError(response)
 
-            raise error_class(response)
+        response_data = response.json()
+        if not response_data.get('success', False):
+            status = response_data.get('status', '')
+            if status == NOT_FOUND_ERROR_RESPONSE:
+                raise PersonNotFoundError(response)
+            if status == INVALID_TOKEN_ERROR_RESPONSE:
+                self._invalidate_auth_token()
+                raise InvalidTokenError(response)
+            if status == INVALID_PLAN_ERROR_RESPONSE:
+                raise InvalidPlanError(response)
+            if status == INSUFFICIENT_BALANCE_ERROR_RESPONSE:
+                raise InsufficientBalanceError(response)
+            raise QuienEsQuienError(response)
 
         matched_persons = [
             Person(**person_data)
