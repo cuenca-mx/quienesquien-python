@@ -1,5 +1,5 @@
 import os
-from typing import Any, Generator
+from typing import Any, AsyncGenerator
 
 import pytest
 
@@ -10,8 +10,8 @@ QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
 QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
 
 
-@pytest.fixture(scope='module')
-def client() -> Generator[Client, None, None]:
+@pytest.fixture()
+async def client() -> AsyncGenerator[Client, None]:
     yield Client(QEQ_USER, QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 

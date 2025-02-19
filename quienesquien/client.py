@@ -131,11 +131,11 @@ class Client:
         if curp:
             params['curp'] = curp
         if gender:
-            params['sex'] = gender.value
+            params['sex'] = gender
         if birthday:
             params['birthday'] = birthday.strftime('%d/%m/%Y')
         if search_type is not None:
-            params['type'] = search_type.value
+            params['type'] = search_type
         if search_list:
             params['list'] = ','.join(search_list)
 
