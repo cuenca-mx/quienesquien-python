@@ -128,7 +128,7 @@ class Client:
         if curp:
             params['curp'] = curp
         if gender:
-            params['sex'] = gender
+            params['sex'] = gender.value
         if birthday:
             params['birthday'] = birthday.strftime('%d/%m/%Y')
         if search_type is not None:

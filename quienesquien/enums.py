@@ -1,4 +1,4 @@
-from enum import IntEnum, StrEnum
+from enum import IntEnum, Enum
 
 
 class SearchType(IntEnum):
@@ -6,7 +6,7 @@ class SearchType(IntEnum):
     moral = 1
 
 
-class SearchList(StrEnum):
+class SearchList(str, Enum):
     PPE = 'PPE'
     PEPINT = 'PEPINT'
     OFAC = 'OFAC'
@@ -61,6 +61,6 @@ class SearchList(StrEnum):
     YEME = 'YEME'
 
 
-class Gender(StrEnum):
+class Gender(str, Enum):
     masculino = 'M'
     femenino = 'F'
