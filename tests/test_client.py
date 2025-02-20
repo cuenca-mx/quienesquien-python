@@ -1,6 +1,7 @@
 import datetime as dt
 
 import pytest
+from httpx import Response
 
 from quienesquien import Client
 from quienesquien.enums import Gender, SearchList, SearchType
@@ -63,49 +64,113 @@ async def test_reusable_token(client: Client) -> None:
 
 
 @pytest.mark.vcr
-async def test_invalid_token(client: Client, mocker) -> None:
-    mock_response = mocker.Mock()
-    mock_response.text = 'invalid_token'
-    mocker.patch.object(
-        client, '_fetch_auth_token', return_value=mock_response
+async def test_invalid_token(client: Client, respx_mock):
+    respx_mock.get('https://app.q-detect.com/api/token').mock(
+        return_value=Response(200, text='an_invalid_token')
     )
+    respx_mock.get('https://app.q-detect.com/api/find').pass_through()
     with pytest.raises(InvalidTokenError):
         await client.search('Pepito Cuenca', 80)
     assert client._auth_token is None
 
 
-async def test_invalid_plan(client: Client, invalid_plan_mock) -> None:
+@pytest.mark.vcr
+async def test_invalid_plan(client: Client, respx_mock) -> None:
+    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
+    respx_mock.get('https://app.q-detect.com/api/find').mock(
+        return_value=Response(
+            200,
+            json={
+                'success': False,
+                'status': 'Tu plan de consultas ha expirado, '
+                'por favor actualiza tu plan para continuar usando la API',
+            },
+        )
+    )
     with pytest.raises(InvalidPlanError):
         await client.search('Pepito Cuenca', 80)
 
 
-async def test_insufficient_balance(
-    client: Client, insufficient_balance_mock
-) -> None:
+@pytest.mark.vcr
+async def test_insufficient_balance(client: Client, respx_mock) -> None:
+    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
+    respx_mock.get('https://app.q-detect.com/api/find').mock(
+        return_value=Response(
+            403,
+            json={
+                'success': False,
+                'status': 'No se puede realizar la búsqueda, '
+                'saldo insuficiente',
+            },
+        )
+    )
     with pytest.raises(InsufficientBalanceError):
         await client.search('Pepito Cuenca', 80)
 
 
-async def test_block_account(client: Client, block_account_mock) -> None:
+@pytest.mark.vcr
+async def test_block_account(client: Client, respx_mock) -> None:
+    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
+    respx_mock.get('https://app.q-detect.com/api/find').mock(
+        return_value=Response(
+            401,
+            json={
+                'success': False,
+                'status': (
+                    'El token proporcionado para realizar '
+                    'esta acción es inválido'
+                ),
+            },
+        )
+    )
     with pytest.raises(InvalidTokenError):
         await client.search('Pepito Cuenca', 80)
 
 
-async def test_internal_server_error(
-    client: Client, internal_server_error_mock
-) -> None:
+@pytest.mark.vcr
+async def test_internal_server_error(client: Client, respx_mock) -> None:
+    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
+    respx_mock.get('https://app.q-detect.com/api/find').mock(
+        return_value=Response(
+            500,
+            json={
+                'success': False,
+                'status': 'Internal server error',
+            },
+        )
+    )
     with pytest.raises(QuienEsQuienError):
         await client.search('Pepito Cuenca', 80)
 
 
-async def test_http_error(client: Client, mocker) -> None:
-    mock_response = mocker.Mock()
-    mock_response.json.return_value = {
-        'success': False,
-        'status': '“No se ha podido crear token',
-    }
-    mocker.patch.object(client, '_make_request', return_value=mock_response)
+@pytest.mark.vcr
+async def test_unknown_error(client: Client, respx_mock) -> None:
+    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
+    respx_mock.get('https://app.q-detect.com/api/find').mock(
+        return_value=Response(
+            200,
+            json={
+                'success': False,
+                'status': 'Unknown error',
+            },
+        )
+    )
+    with pytest.raises(QuienEsQuienError):
+        await client.search('Pepito Cuenca', 80)
 
+
+@pytest.mark.vcr
+async def test_token_error_response(client: Client, respx_mock) -> None:
+    respx_mock.get('https://app.q-detect.com/api/token').mock(
+        return_value=Response(
+            500,
+            json={
+                'success': False,
+                'status': 'No se ha podido crear token',
+            },
+        )
+    )
+    respx_mock.get('https://app.q-detect.com/api/find').pass_through()
     with pytest.raises(QuienEsQuienError):
         await client.search('Pepito Cuenca', 80)
 

@@ -66,11 +66,13 @@ class Client:
             'Authorization': f'Bearer {self.secret_key}',
             'Accept-Encoding': 'identity',
         }
-
-        response = await self._make_request(
-            'GET', auth_url, headers=headers, params=params
-        )
-        self._auth_token = response.text
+        try:
+            response = await self._make_request(
+                'GET', auth_url, headers=headers, params=params
+            )
+            self._auth_token = response.text
+        except httpx.HTTPStatusError as exc:
+            raise QuienEsQuienError(exc.response) from exc
         return self._auth_token
 
     async def search(
@@ -148,7 +150,7 @@ class Client:
                 raise InvalidTokenError(exc.response)
             if exc.response.status_code == 403:
                 raise InsufficientBalanceError(exc.response)
-            raise QuienEsQuienError(exc.response)
+            raise QuienEsQuienError(exc.response) from exc
 
         response_data = response.json()
         if not response_data.get('success', False):

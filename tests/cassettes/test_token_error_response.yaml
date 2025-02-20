@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Authorization:
+      - DUMMY_AUTHORIZATION
+      accept:
+      - '*/*'
+      accept-encoding:
+      - identity
+      connection:
+      - keep-alive
+      host:
+      - app.q-detect.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
+  response:
+    body:
+      string: '{"success":false,"status":"No se ha podido crear token"}'
+    headers:
+      Content-Length:
+      - '56'
+      Content-Type:
+      - application/json
+      Set-Cookie: DUMMY_SET_COOKIE
+    status:
+      code: 500
+      message: Internal Server Error
+version: 1
