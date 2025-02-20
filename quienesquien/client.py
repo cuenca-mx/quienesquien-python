@@ -15,15 +15,6 @@ from .exc import (
 )
 from .person import Person
 
-NOT_FOUND_ERROR_RESPONSE = 'No se han encontrado coincidencias'
-INVALID_TOKEN_ERROR_RESPONSE = (
-    'El token proporcionado para realizar esta acción es inválido'
-)
-INVALID_PLAN_ERROR_RESPONSE = (
-    'Tu plan de consultas ha expirado, '
-    'por favor actualiza tu plan para continuar usando la API'
-)
-
 
 @dataclass
 class Client:
@@ -145,24 +136,34 @@ class Client:
                 'GET', search_url, params=params, headers=headers
             )
         except httpx.HTTPStatusError as exc:
-            if exc.response.status_code == 401:
-                self._invalidate_auth_token()
-                raise InvalidTokenError(exc.response)
-            if exc.response.status_code == 403:
-                raise InsufficientBalanceError(exc.response)
-            raise QuienEsQuienError(exc.response) from exc
+            match exc.response.status_code:
+                case 401:
+                    self._invalidate_auth_token()
+                    raise InvalidTokenError(exc.response)
+                case 403:
+                    raise InsufficientBalanceError(exc.response)
+                case _:
+                    raise QuienEsQuienError(exc.response) from exc
 
         response_data = response.json()
         if not response_data.get('success', False):
             status = response_data.get('status', '')
-            if status == NOT_FOUND_ERROR_RESPONSE:
-                raise PersonNotFoundError(response)
-            if status == INVALID_TOKEN_ERROR_RESPONSE:
-                self._invalidate_auth_token()
-                raise InvalidTokenError(response)
-            if status == INVALID_PLAN_ERROR_RESPONSE:
-                raise InvalidPlanError(response)
-            raise QuienEsQuienError(response)
+            match status:
+                case 'No se han encontrado coincidencias':
+                    raise PersonNotFoundError(response)
+                case (
+                    'El token proporcionado para realizar esta acción '
+                    'es inválido'
+                ):
+                    self._invalidate_auth_token()
+                    raise InvalidTokenError(response)
+                case (
+                    'Tu plan de consultas ha expirado, por favor '
+                    'actualiza tu plan para continuar usando la API'
+                ):
+                    raise InvalidPlanError(response)
+                case _:
+                    raise QuienEsQuienError(response)
 
         matched_persons = [
             Person(**person_data)
