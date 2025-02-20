@@ -1,77 +1,29 @@
-PERSON_FIELDNAMES = """
-    id_persona
-    peso1
-    peso2
-    nombre
-    paterno
-    materno
-    curp
-    rfc
-    fecha_nacimiento
-    sexo
-    lista
-    estatus
-    dependencia
-    puesto
-    area
-    iddispo
-    idrel
-    parentesco
-    razonsoc
-    rfcmoral
-    issste
-    imss
-    ingresos
-    nombrecomp
-    apellidos
-    entidad
-    curp_ok
-    periodo
-    expediente
-    fecha_resolucion
-    causa_irregularidad
-    sancion
-    fecha_cargo_ini
-    fecha_cargo_fin
-    duracion
-    monto
-    autoridad_sanc
-    admon_local
-    numord
-    rubro
-    central_obrera
-    numsocios
-    fecha_vigencia
-    titulo
-    domicilio_a
-    domicilio_b
-    colonia
-    cp
-    ciudad
-    lada
-    telefono
-    fax
-    email
-    pais
-    idrequerimiento
-    fechaoficio
-    buscado_en
-    ciudadania
-    pasaporte
-    cedula
-    nss
-    parentesco_con
-    identificacion_no
-    licencia_cond
-    cartilla_no
-    gafi
-""".split()
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-class Person(object):
-    def __init__(self, *initial_data, **kwargs):
-        for dictionary in initial_data:
-            for key in dictionary:
-                setattr(self, key, dictionary[key])
-        for key in kwargs:
-            setattr(self, key, kwargs[key])
+class Person(BaseModel):
+    lista: str = Field(alias='LISTA')
+    coincidencia: int = Field(alias='COINCIDENCIA')
+    nombrecomp: str = Field(alias='NOMBRECOMP')
+    id_persona: str | None = Field(default=None, alias='ID_PERSONA')
+    nombre: str | None = Field(default=None, alias='NOMBRE')
+    paterno: str | None = Field(default=None, alias='PATERNO')
+    materno: str | None = Field(default=None, alias='MATERNO')
+    curp: str | None = Field(default=None, alias='CURP')
+    rfc: str | None = Field(default=None, alias='RFC')
+    fecha_nacimiento: str | None = Field(
+        default=None, alias='FECHA_NACIMIENTO'
+    )
+    sexo: str | None = Field(default=None, alias='SEXO')
+    metadata: dict = Field(default_factory=dict, alias='METADATA')
+
+    model_config = ConfigDict(
+        populate_by_name=True,
+        extra='allow',
+    )
+
+    @model_validator(mode='after')
+    def collect_extra_fields(self):
+        if self.model_extra:
+            self.metadata.update(self.model_extra)
+        return self
