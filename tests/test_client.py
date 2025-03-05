@@ -71,7 +71,7 @@ async def test_invalid_token(client: Client, respx_mock):
     respx_mock.get('https://app.q-detect.com/api/find').pass_through()
     with pytest.raises(InvalidTokenError):
         await client.search('Pepito Cuenca', 80)
-    assert client._auth_token is None
+    assert client.auth_token is None
 
 
 @pytest.mark.vcr
@@ -184,3 +184,11 @@ async def test_invalid_search_criteria(client: Client) -> None:
             search_type=SearchType.fisica,
             search_list=(SearchList.PPE, SearchList.ONU),
         )
+
+
+@pytest.mark.vcr
+async def test_client_with_auth_token(client_with_auth_token: Client) -> None:
+    resp = await client_with_auth_token.search(
+        'Andres Manuel Lopez Obrador', 80
+    )
+    assert len(resp) != 0
