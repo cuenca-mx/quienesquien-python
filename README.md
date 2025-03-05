@@ -72,6 +72,21 @@ except PersonNotFoundError:
     persons = []
 ```
 
+Optional: Set a default auth token to avoid generating multiple tokens.
+```bash
+export QEQ_AUTH_TOKEN=your_auth_token
+```
+
+Example
+```python
+client = Client(
+    os.environ['QEQ_USER'],
+    os.environ['QEQ_CLIENT_ID'],
+    os.environ['QEQ_SECRET_ID'],
+    os.environ['QEQ_AUTH_TOKEN'],
+)
+```
+
 ## Search Parameters
 - `full_name` (str): Full name of the person.
 - `match_score` (int): Minimum match percentage (default: 60).
