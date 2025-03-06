@@ -22,14 +22,14 @@ class Client:
     username: str
     client_id: str
     secret_key: str
-    _auth_token: str | None = None
+    auth_token: str | None = None
     _client: httpx.AsyncClient = field(
         default_factory=httpx.AsyncClient, init=False
     )
 
     def _invalidate_auth_token(self) -> None:
         """Clear the stored authentication token."""
-        self._auth_token = None
+        self.auth_token = None
 
     async def _make_request(
         self,
@@ -48,8 +48,8 @@ class Client:
 
     async def _fetch_auth_token(self) -> str:
         """Retrieve authentication token from the API."""
-        if self._auth_token is not None:
-            return self._auth_token
+        if self.auth_token is not None:
+            return self.auth_token
 
         auth_url = f'{self.base_url}/api/token'
         params = {'client_id': self.client_id}
@@ -61,10 +61,10 @@ class Client:
             response = await self._make_request(
                 'GET', auth_url, headers=headers, params=params
             )
-            self._auth_token = response.text
+            self.auth_token = response.text
         except httpx.HTTPStatusError as exc:
             raise QuienEsQuienError(exc.response) from exc
-        return self._auth_token
+        return self.auth_token
 
     async def search(
         self,
