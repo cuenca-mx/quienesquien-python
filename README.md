@@ -83,7 +83,7 @@ client = Client(
     os.environ['QEQ_USER'],
     os.environ['QEQ_CLIENT_ID'],
     os.environ['QEQ_SECRET_ID'],
-    os.environ['QEQ_AUTH_TOKEN'],
+    os.environ.get('QEQ_AUTH_TOKEN'),
 )
 ```
 
