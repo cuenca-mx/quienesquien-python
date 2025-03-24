@@ -25,5 +25,9 @@ class Person(BaseModel):
     @model_validator(mode='after')
     def collect_extra_fields(self):
         if self.model_extra:
-            self.metadata.update(self.model_extra)
+            lowercase_extra = {
+                k.lower(): v for k, v in self.model_extra.items()
+            }
+            self.metadata.update(lowercase_extra)
+            self.model_extra.clear()
         return self
