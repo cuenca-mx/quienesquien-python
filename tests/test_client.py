@@ -181,7 +181,7 @@ async def test_invalid_search_criteria(client: Client) -> None:
         )
 
 
-async def test_invalid_client() -> None:
+async def test_client_without_token() -> None:
     from quienesquien import Client
 
     search_client = Client('username', 'client_id')
