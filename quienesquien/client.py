@@ -21,15 +21,10 @@ class Client:
     base_url = 'https://app.q-detect.com'
     username: str
     client_id: str
-    secret_key: str
     auth_token: str | None = None
     _client: httpx.AsyncClient = field(
         default_factory=httpx.AsyncClient, init=False
     )
-
-    def _invalidate_auth_token(self) -> None:
-        """Clear the stored authentication token."""
-        self.auth_token = None
 
     async def _make_request(
         self,
@@ -46,25 +41,22 @@ class Client:
         response.raise_for_status()
         return response
 
-    async def _fetch_auth_token(self) -> str:
-        """Retrieve authentication token from the API."""
-        if self.auth_token is not None:
-            return self.auth_token
+    async def create_token(self, secret_key: str) -> str:
+        """Create a new authentication token."""
 
         auth_url = f'{self.base_url}/api/token'
         params = {'client_id': self.client_id}
         headers = {
-            'Authorization': f'Bearer {self.secret_key}',
+            'Authorization': f'Bearer {secret_key}',
             'Accept-Encoding': 'identity',
         }
         try:
             response = await self._make_request(
                 'GET', auth_url, headers=headers, params=params
             )
-            self.auth_token = response.text
         except httpx.HTTPStatusError as exc:
             raise QuienEsQuienError(exc.response) from exc
-        return self.auth_token
+        return response.text
 
     async def search(
         self,
@@ -95,6 +87,10 @@ class Client:
             neither is found.
 
         """
+        assert (
+            self.auth_token
+        ), 'you must create or reuse an already created auth token'
+
         # Validate search criteria
         by_name = full_name is not None
         by_rfc = rfc is not None
@@ -102,8 +98,6 @@ class Client:
 
         if not (by_name or by_rfc or by_curp):
             raise InvalidSearchCriteriaError
-
-        token = await self._fetch_auth_token()
 
         # Build base URL with required parameters
         search_url = f'{self.base_url}/api/find'
@@ -129,7 +123,7 @@ class Client:
         if search_list:
             params['list'] = ','.join(search_list)
 
-        headers = {'Authorization': f'Bearer {token}'}
+        headers = {'Authorization': f'Bearer {self.auth_token}'}
 
         try:
             response = await self._make_request(
@@ -138,7 +132,6 @@ class Client:
         except httpx.HTTPStatusError as exc:
             match exc.response.status_code:
                 case 401:
-                    self._invalidate_auth_token()
                     raise InvalidTokenError(exc.response)
                 case 403:
                     raise InsufficientBalanceError(exc.response)
@@ -155,7 +148,6 @@ class Client:
                     'El token proporcionado para realizar esta acción '
                     'es inválido'
                 ):
-                    self._invalidate_auth_token()
                     raise InvalidTokenError(response)
                 case (
                     'Tu plan de consultas ha expirado, por favor '
