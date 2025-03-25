@@ -7,9 +7,9 @@
 Client for the Quienesquien list service (https://app.q-detect.com/)
 
 > [!IMPORTANT]
-> **Token invalidation:** Generating a new authentication token automatically invalidates any previously created tokens.
-> **Risk of breaking other clients:** If multiple applications or services are using the same credentials, creating a new token will render the old ones invalid, potentially causing other applications to fail.
-> **Best practice:** To avoid issues, reuse an existing token whenever possible by storing it in an environment variable or a secure location.
+> Generating a new authentication token automatically invalidates any previously created tokens.
+> If multiple applications or services are using the same credentials, creating a new token will render the old ones invalid, potentially causing other applications to fail.
+> To avoid issues, reuse an existing token whenever possible by storing it in an environment variable or a secure location.
 
 ## Installation
 
@@ -40,7 +40,7 @@ export QEQ_SECRET_ID=your_secret_key
 
 ## Token Generation
 
-Before performing searches, you need to create an authentication token using the create_token method.
+Before performing searches, you need to create an authentication token using the create_token method:
 
 ```python
 from quienesquien import Client
@@ -54,7 +54,7 @@ You can reuse this token in subsequent requests.
 
 ## Example
 
-Once you have the token, you can perform searches by passing it
+Once you have the token, you can perform searches by passing it:
 
 ```python
 import os
