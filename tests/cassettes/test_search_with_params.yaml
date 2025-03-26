@@ -15,7 +15,7 @@ interactions:
       user-agent:
       - python-httpx/0.28.1
     method: GET
-    uri: https://app.q-detect.com/api/find?birthday=13%2F11%2F1953&client_id=DUMMY_CLIENT_ID&curp=LOOA531113HTCPBN07&list=PPE%2CONU&name=Andres+Manuel+Lopez+Obrador&percent=85&rfc=LOOA531113F15&sex=M&type=0&username=DUMMY_USERNAME
+    uri: https://app.q-detect.com/api/find?birthday=13%2F11%2F1953&curp=LOOA531113HTCPBN07&list=PPE%2CONU&name=Andres+Manuel+Lopez+Obrador&percent=85&rfc=LOOA531113F15&sex=M&type=0&username=DUMMY_USERNAME
   response:
     body:
       string: '{"success":true,"data":[{"NOMBRECOMP":"Andres Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","ID_PERSONA":"QEQ0281252","NOMBRE":"Andres

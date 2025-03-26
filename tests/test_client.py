@@ -16,6 +16,7 @@ from quienesquien.exc import (
 )
 
 QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
+QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
 
 
 @pytest.mark.vcr
@@ -147,7 +148,9 @@ async def test_unknown_error(client: Client, respx_mock) -> None:
 
 @pytest.mark.vcr
 async def test_create_token(client_without_token: Client) -> None:
-    token = await client_without_token.create_token(QEQ_SECRET_ID)
+    token = await client_without_token.create_token(
+        QEQ_CLIENT_ID, QEQ_SECRET_ID
+    )
     client_without_token.auth_token = token
     resp = await client_without_token.search('Andres Manuel Lopez Obrador', 80)
     assert len(resp) != 0
@@ -167,7 +170,7 @@ async def test_token_error_response(
         )
     )
     with pytest.raises(QuienEsQuienError):
-        await client_without_token.create_token(QEQ_SECRET_ID)
+        await client_without_token.create_token(QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 
 async def test_invalid_search_criteria(client: Client) -> None:
@@ -182,9 +185,7 @@ async def test_invalid_search_criteria(client: Client) -> None:
 
 
 async def test_client_without_token() -> None:
-    from quienesquien import Client
-
-    search_client = Client('username', 'client_id')
+    search_client = Client('my_username')
     with pytest.raises(AssertionError) as excinfo:
         await search_client.search('Andres Manuel Lopez Obrador', 80)
     assert (

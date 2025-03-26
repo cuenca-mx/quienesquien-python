@@ -1,6 +1,6 @@
 import datetime as dt
 from dataclasses import dataclass, field
-from typing import Mapping
+from typing import Any, Mapping
 
 import httpx
 
@@ -20,7 +20,6 @@ from .person import Person
 class Client:
     base_url = 'https://app.q-detect.com'
     username: str
-    client_id: str
     auth_token: str | None = None
     _client: httpx.AsyncClient = field(
         default_factory=httpx.AsyncClient, init=False
@@ -32,7 +31,7 @@ class Client:
         url: str,
         *,
         headers: Mapping[str, str] | None = None,
-        params: Mapping[str, str | int | None] | None = None,
+        params: Mapping[str, Any] | None = None,
     ) -> httpx.Response:
         """Make an HTTP request using an async client."""
         response = await self._client.request(
@@ -41,19 +40,21 @@ class Client:
         response.raise_for_status()
         return response
 
-    async def create_token(self, secret_key: str) -> str:
+    @classmethod
+    async def create_token(cls, client_id: str, secret_key: str) -> str:
         """Create a new authentication token."""
-
-        auth_url = f'{self.base_url}/api/token'
-        params = {'client_id': self.client_id}
+        auth_url = f'{cls.base_url}/api/token'
+        params = {'client_id': client_id}
         headers = {
             'Authorization': f'Bearer {secret_key}',
             'Accept-Encoding': 'identity',
         }
         try:
-            response = await self._make_request(
-                'GET', auth_url, headers=headers, params=params
-            )
+            async with httpx.AsyncClient() as client:
+                response = await client.request(
+                    'GET', auth_url, headers=headers, params=params
+                )
+                response.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise QuienEsQuienError(exc.response) from exc
         return response.text
@@ -91,37 +92,25 @@ class Client:
             self.auth_token
         ), 'you must create or reuse an already created auth token'
 
-        # Validate search criteria
-        by_name = full_name is not None
-        by_rfc = rfc is not None
-        by_curp = curp is not None
-
-        if not (by_name or by_rfc or by_curp):
+        if not (full_name or rfc or curp):
             raise InvalidSearchCriteriaError
 
         # Build base URL with required parameters
         search_url = f'{self.base_url}/api/find'
 
-        params: dict[str, str | int | None] = {
-            'client_id': self.client_id,
+        params = {
             'username': self.username,
             'percent': match_score,
+            'name': full_name,
+            'rfc': rfc,
+            'curp': curp,
+            'sex': gender.value if gender else None,
+            'birthday': birthday.strftime('%d/%m/%Y') if birthday else None,
+            'type': search_type.value if search_type is not None else None,
+            'list': ','.join(search_list) if search_list else None,
         }
 
-        if by_name:
-            params['name'] = full_name
-        if rfc:
-            params['rfc'] = rfc
-        if curp:
-            params['curp'] = curp
-        if gender:
-            params['sex'] = gender.value
-        if birthday:
-            params['birthday'] = birthday.strftime('%d/%m/%Y')
-        if search_type is not None:
-            params['type'] = search_type.value
-        if search_list:
-            params['list'] = ','.join(search_list)
+        params = {k: v for k, v in params.items() if v is not None}
 
         headers = {'Authorization': f'Bearer {self.auth_token}'}
 

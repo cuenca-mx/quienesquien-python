@@ -15,7 +15,7 @@ interactions:
       user-agent:
       - python-httpx/0.28.1
     method: GET
-    uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Andres+Manuel+Lopez+Obrador&percent=80&username=DUMMY_USERNAME
+    uri: https://app.q-detect.com/api/find?name=Andres+Manuel+Lopez+Obrador&percent=80&username=DUMMY_USERNAME
   response:
     body:
       string: '{"success":true,"data":[{"NOMBRECOMP":"Andres Manuel L\u00f3pez Obrador","CURP":"LOOA531113HTCPBN07","RFC":"LOOA531113F15","ID_PERSONA":"QEQ0281252","NOMBRE":"Andres
@@ -49,7 +49,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 25 Mar 2025 22:03:39 GMT
+      - Wed, 26 Mar 2025 19:47:32 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie: DUMMY_SET_COOKIE

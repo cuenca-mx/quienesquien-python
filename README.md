@@ -45,9 +45,8 @@ Before performing searches, you need to create an authentication token using the
 ```python
 from quienesquien import Client
 
-client = Client(os.environ['QEQ_USER'], os.environ['QEQ_CLIENT_ID'])
-
-auth_token = await client.create_token(os.environ['QEQ_SECRET_ID'])
+client = Client(os.environ['QEQ_USER'])
+auth_token = await client.create_token(os.environ['QEQ_CLIENT_ID'], os.environ['QEQ_SECRET_ID'])
 ```
 
 You can reuse this token in subsequent requests.
@@ -70,7 +69,6 @@ from quienesquien.exc import (
 # Create the client with the token
 client = Client(
     os.environ['QEQ_USER'],
-    os.environ['QEQ_CLIENT_ID'],
     auth_token,
 )
 
