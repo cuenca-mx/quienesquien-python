@@ -1,11 +1,14 @@
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    computed_field,
+    model_validator,
+)
 
 
 class Person(BaseModel):
     lista: str = Field(alias='LISTA')
-    peso1: int = Field(
-        alias='COINCIDENCIA'
-    )  # peso1 is required for backward compatibility with previous version.
     coincidencia: int = Field(alias='COINCIDENCIA')
     nombrecomp: str = Field(alias='NOMBRECOMP')
     id_persona: str | None = Field(default=None, alias='ID_PERSONA')
@@ -23,6 +26,12 @@ class Person(BaseModel):
         populate_by_name=True,
         extra='allow',
     )
+
+    @computed_field  # type: ignore[misc]
+    @property
+    def peso1(self) -> str:
+        # peso1 is required for backward compatibility with previous version.
+        return str(self.coincidencia)
 
     @model_validator(mode='after')
     def collect_extra_fields(self):

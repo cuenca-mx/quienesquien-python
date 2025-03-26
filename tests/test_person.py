@@ -11,7 +11,7 @@ def test_collect_extra_fields():
     }
     person = Person(**person_data)
     assert person.lista == 'lista1'
-    assert person.peso1 == 100
+    assert person.peso1 == '100'
     assert person.coincidencia == 100
     assert person.nombrecomp == 'Juan Pérez'
     assert person.campo_extra1 == 'valor1'
