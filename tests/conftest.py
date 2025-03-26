@@ -14,11 +14,6 @@ async def client() -> AsyncGenerator[Client, None]:
     yield Client(QEQ_USER, QEQ_AUTH_TOKEN)
 
 
-@pytest.fixture()
-async def client_without_token() -> AsyncGenerator[Client, None]:
-    yield Client(QEQ_USER)
-
-
 @pytest.fixture(scope='session')
 def vcr_config() -> dict[str, Any]:
 

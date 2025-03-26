@@ -17,6 +17,7 @@ from quienesquien.exc import (
 
 QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
 QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
+QEQ_USER = os.environ['QEQ_USER']
 
 
 @pytest.mark.vcr
@@ -147,19 +148,15 @@ async def test_unknown_error(client: Client, respx_mock) -> None:
 
 
 @pytest.mark.vcr
-async def test_create_token(client_without_token: Client) -> None:
-    token = await client_without_token.create_token(
-        QEQ_CLIENT_ID, QEQ_SECRET_ID
-    )
-    client_without_token.auth_token = token
-    resp = await client_without_token.search('Andres Manuel Lopez Obrador', 80)
+async def test_create_token() -> None:
+    token = await Client.create_token(QEQ_CLIENT_ID, QEQ_SECRET_ID)
+    client = Client(QEQ_USER, token)
+    resp = await client.search('Andres Manuel Lopez Obrador', 80)
     assert len(resp) != 0
 
 
 @pytest.mark.vcr
-async def test_token_error_response(
-    client_without_token: Client, respx_mock
-) -> None:
+async def test_token_error_response(respx_mock) -> None:
     respx_mock.get('https://app.q-detect.com/api/token').mock(
         return_value=Response(
             500,
@@ -170,7 +167,7 @@ async def test_token_error_response(
         )
     )
     with pytest.raises(QuienEsQuienError):
-        await client_without_token.create_token(QEQ_CLIENT_ID, QEQ_SECRET_ID)
+        await Client.create_token(QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 
 async def test_invalid_search_criteria(client: Client) -> None:
