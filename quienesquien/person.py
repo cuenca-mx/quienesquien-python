@@ -1,4 +1,10 @@
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    computed_field,
+    model_validator,
+)
 
 
 class Person(BaseModel):
@@ -15,15 +21,24 @@ class Person(BaseModel):
         default=None, alias='FECHA_NACIMIENTO'
     )
     sexo: str | None = Field(default=None, alias='SEXO')
-    metadata: dict = Field(default_factory=dict, alias='METADATA')
 
     model_config = ConfigDict(
         populate_by_name=True,
         extra='allow',
     )
 
+    @computed_field  # type: ignore[misc]
+    @property
+    def peso1(self) -> str:
+        # peso1 is required for backward compatibility with previous version.
+        return str(self.coincidencia)
+
     @model_validator(mode='after')
     def collect_extra_fields(self):
         if self.model_extra:
-            self.metadata.update(self.model_extra)
+            lowercase_extra = {
+                k.lower(): v for k, v in self.model_extra.items()
+            }
+            self.model_extra.clear()
+            self.model_extra.update(lowercase_extra)
         return self

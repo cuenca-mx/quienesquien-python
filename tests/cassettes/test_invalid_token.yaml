@@ -7,35 +7,6 @@ interactions:
       accept:
       - '*/*'
       accept-encoding:
-      - identity
-      connection:
-      - keep-alive
-      host:
-      - app.q-detect.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
-  response:
-    body:
-      string: an_invalid_token
-    headers:
-      Content-Length:
-      - '16'
-      Content-Type:
-      - text/plain; charset=utf-8
-      Set-Cookie: DUMMY_SET_COOKIE
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      Authorization:
-      - DUMMY_AUTHORIZATION
-      accept:
-      - '*/*'
-      accept-encoding:
       - gzip, deflate
       connection:
       - keep-alive
@@ -44,7 +15,7 @@ interactions:
       user-agent:
       - python-httpx/0.28.1
     method: GET
-    uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Pepito+Cuenca&percent=80&username=DUMMY_USERNAME
+    uri: https://app.q-detect.com/api/find?name=Pepito+Cuenca&percent=80&username=DUMMY_USERNAME
   response:
     body:
       string: '{"success":false,"status":"El token proporcionado para realizar esta
@@ -59,7 +30,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 20 Feb 2025 15:49:52 GMT
+      - Tue, 25 Mar 2025 22:03:43 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie: DUMMY_SET_COOKIE

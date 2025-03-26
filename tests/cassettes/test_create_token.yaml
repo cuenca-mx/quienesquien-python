@@ -7,6 +7,51 @@ interactions:
       accept:
       - '*/*'
       accept-encoding:
+      - identity
+      connection:
+      - keep-alive
+      host:
+      - app.q-detect.com
+      user-agent:
+      - python-httpx/0.28.1
+    method: GET
+    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
+  response:
+    body:
+      string: DUMMY_RESPONSE_TOKEN
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Tue, 25 Mar 2025 22:18:31 GMT
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Set-Cookie: DUMMY_SET_COOKIE
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      Authorization:
+      - DUMMY_AUTHORIZATION
+      accept:
+      - '*/*'
+      accept-encoding:
       - gzip, deflate
       connection:
       - keep-alive
@@ -49,7 +94,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 26 Mar 2025 19:47:32 GMT
+      - Tue, 25 Mar 2025 22:18:32 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie: DUMMY_SET_COOKIE

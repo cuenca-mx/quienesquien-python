@@ -1,6 +1,6 @@
 import datetime as dt
-from dataclasses import dataclass, field
-from typing import Mapping
+from dataclasses import dataclass
+from typing import Any, ClassVar, Mapping
 
 import httpx
 
@@ -20,16 +20,8 @@ from .person import Person
 class Client:
     base_url = 'https://app.q-detect.com'
     username: str
-    client_id: str
-    secret_key: str
-    _auth_token: str | None = None
-    _client: httpx.AsyncClient = field(
-        default_factory=httpx.AsyncClient, init=False
-    )
-
-    def _invalidate_auth_token(self) -> None:
-        """Clear the stored authentication token."""
-        self._auth_token = None
+    auth_token: str | None = None
+    _client: ClassVar[httpx.AsyncClient] = httpx.AsyncClient()
 
     async def _make_request(
         self,
@@ -37,7 +29,7 @@ class Client:
         url: str,
         *,
         headers: Mapping[str, str] | None = None,
-        params: Mapping[str, str | int | None] | None = None,
+        params: Mapping[str, Any] | None = None,
     ) -> httpx.Response:
         """Make an HTTP request using an async client."""
         response = await self._client.request(
@@ -46,25 +38,23 @@ class Client:
         response.raise_for_status()
         return response
 
-    async def _fetch_auth_token(self) -> str:
-        """Retrieve authentication token from the API."""
-        if self._auth_token is not None:
-            return self._auth_token
-
-        auth_url = f'{self.base_url}/api/token'
-        params = {'client_id': self.client_id}
+    @classmethod
+    async def create_token(cls, client_id: str, secret_key: str) -> str:
+        """Create a new authentication token."""
+        auth_url = f'{cls.base_url}/api/token'
+        params = {'client_id': client_id}
         headers = {
-            'Authorization': f'Bearer {self.secret_key}',
+            'Authorization': f'Bearer {secret_key}',
             'Accept-Encoding': 'identity',
         }
         try:
-            response = await self._make_request(
+            response = await cls._client.request(
                 'GET', auth_url, headers=headers, params=params
             )
-            self._auth_token = response.text
+            response.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise QuienEsQuienError(exc.response) from exc
-        return self._auth_token
+        return response.text
 
     async def search(
         self,
@@ -95,41 +85,31 @@ class Client:
             neither is found.
 
         """
-        # Validate search criteria
-        by_name = full_name is not None
-        by_rfc = rfc is not None
-        by_curp = curp is not None
+        assert (
+            self.auth_token
+        ), 'you must create or reuse an already created auth token'
 
-        if not (by_name or by_rfc or by_curp):
+        if not (full_name or rfc or curp):
             raise InvalidSearchCriteriaError
-
-        token = await self._fetch_auth_token()
 
         # Build base URL with required parameters
         search_url = f'{self.base_url}/api/find'
 
-        params: dict[str, str | int | None] = {
-            'client_id': self.client_id,
+        params = {
             'username': self.username,
             'percent': match_score,
+            'name': full_name,
+            'rfc': rfc,
+            'curp': curp,
+            'sex': gender.value if gender else None,
+            'birthday': birthday.strftime('%d/%m/%Y') if birthday else None,
+            'type': search_type.value if search_type is not None else None,
+            'list': ','.join(search_list) if search_list else None,
         }
 
-        if by_name:
-            params['name'] = full_name
-        if rfc:
-            params['rfc'] = rfc
-        if curp:
-            params['curp'] = curp
-        if gender:
-            params['sex'] = gender.value
-        if birthday:
-            params['birthday'] = birthday.strftime('%d/%m/%Y')
-        if search_type is not None:
-            params['type'] = search_type.value
-        if search_list:
-            params['list'] = ','.join(search_list)
+        params = {k: v for k, v in params.items() if v is not None}
 
-        headers = {'Authorization': f'Bearer {token}'}
+        headers = {'Authorization': f'Bearer {self.auth_token}'}
 
         try:
             response = await self._make_request(
@@ -138,7 +118,6 @@ class Client:
         except httpx.HTTPStatusError as exc:
             match exc.response.status_code:
                 case 401:
-                    self._invalidate_auth_token()
                     raise InvalidTokenError(exc.response)
                 case 403:
                     raise InsufficientBalanceError(exc.response)
@@ -155,7 +134,6 @@ class Client:
                     'El token proporcionado para realizar esta acción '
                     'es inválido'
                 ):
-                    self._invalidate_auth_token()
                     raise InvalidTokenError(response)
                 case (
                     'Tu plan de consultas ha expirado, por favor '

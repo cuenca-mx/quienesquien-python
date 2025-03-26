@@ -7,51 +7,6 @@ interactions:
       accept:
       - '*/*'
       accept-encoding:
-      - identity
-      connection:
-      - keep-alive
-      host:
-      - app.q-detect.com
-      user-agent:
-      - python-httpx/0.28.1
-    method: GET
-    uri: https://app.q-detect.com/api/token?client_id=DUMMY_CLIENT_ID
-  response:
-    body:
-      string: DUMMY_RESPONSE_TOKEN
-    headers:
-      Access-Control-Allow-Origin:
-      - '*'
-      Cache-Control:
-      - no-cache, private
-      Connection:
-      - keep-alive
-      Content-Type:
-      - text/html; charset=UTF-8
-      Date:
-      - Thu, 20 Feb 2025 15:49:43 GMT
-      Server:
-      - nginx/1.18.0 (Ubuntu)
-      Set-Cookie: DUMMY_SET_COOKIE
-      Transfer-Encoding:
-      - chunked
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-    status:
-      code: 200
-      message: OK
-- request:
-    body: ''
-    headers:
-      Authorization:
-      - DUMMY_AUTHORIZATION
-      accept:
-      - '*/*'
-      accept-encoding:
       - gzip, deflate
       connection:
       - keep-alive
@@ -60,7 +15,7 @@ interactions:
       user-agent:
       - python-httpx/0.28.1
     method: GET
-    uri: https://app.q-detect.com/api/find?client_id=DUMMY_CLIENT_ID&name=Pepito+Cuenca+&percent=80&username=DUMMY_USERNAME
+    uri: https://app.q-detect.com/api/find?name=Pepito+Cuenca+&percent=80&username=DUMMY_USERNAME
   response:
     body:
       string: '{"success":false,"status":"No se han encontrado coincidencias"}'
@@ -74,7 +29,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 20 Feb 2025 15:49:44 GMT
+      - Tue, 25 Mar 2025 22:03:38 GMT
       Server:
       - nginx/1.18.0 (Ubuntu)
       Set-Cookie: DUMMY_SET_COOKIE

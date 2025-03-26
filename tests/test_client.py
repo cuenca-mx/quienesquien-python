@@ -1,4 +1,5 @@
 import datetime as dt
+import os
 
 import pytest
 from httpx import Response
@@ -13,6 +14,10 @@ from quienesquien.exc import (
     PersonNotFoundError,
     QuienEsQuienError,
 )
+
+QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
+QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
+QEQ_USER = os.environ['QEQ_USER']
 
 
 @pytest.mark.vcr
@@ -56,27 +61,14 @@ async def test_search_with_params(client: Client) -> None:
 
 
 @pytest.mark.vcr
-async def test_reusable_token(client: Client) -> None:
-    resp1 = await client.search('Andres Manuel Lopez Obrador', 80)
-    resp2 = await client.search('Marcelo Luis Ebrard Casaubón', 80)
-    assert len(resp1) != 0
-    assert len(resp2) != 0
-
-
-@pytest.mark.vcr
-async def test_invalid_token(client: Client, respx_mock):
-    respx_mock.get('https://app.q-detect.com/api/token').mock(
-        return_value=Response(200, text='an_invalid_token')
-    )
-    respx_mock.get('https://app.q-detect.com/api/find').pass_through()
+async def test_invalid_token(client: Client):
+    client.auth_token = 'an_invalid_token'
     with pytest.raises(InvalidTokenError):
         await client.search('Pepito Cuenca', 80)
-    assert client._auth_token is None
 
 
 @pytest.mark.vcr
 async def test_invalid_plan(client: Client, respx_mock) -> None:
-    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
     respx_mock.get('https://app.q-detect.com/api/find').mock(
         return_value=Response(
             200,
@@ -93,7 +85,6 @@ async def test_invalid_plan(client: Client, respx_mock) -> None:
 
 @pytest.mark.vcr
 async def test_insufficient_balance(client: Client, respx_mock) -> None:
-    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
     respx_mock.get('https://app.q-detect.com/api/find').mock(
         return_value=Response(
             403,
@@ -110,7 +101,6 @@ async def test_insufficient_balance(client: Client, respx_mock) -> None:
 
 @pytest.mark.vcr
 async def test_block_account(client: Client, respx_mock) -> None:
-    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
     respx_mock.get('https://app.q-detect.com/api/find').mock(
         return_value=Response(
             401,
@@ -129,7 +119,6 @@ async def test_block_account(client: Client, respx_mock) -> None:
 
 @pytest.mark.vcr
 async def test_internal_server_error(client: Client, respx_mock) -> None:
-    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
     respx_mock.get('https://app.q-detect.com/api/find').mock(
         return_value=Response(
             500,
@@ -145,7 +134,6 @@ async def test_internal_server_error(client: Client, respx_mock) -> None:
 
 @pytest.mark.vcr
 async def test_unknown_error(client: Client, respx_mock) -> None:
-    respx_mock.get('https://app.q-detect.com/api/token').pass_through()
     respx_mock.get('https://app.q-detect.com/api/find').mock(
         return_value=Response(
             200,
@@ -160,7 +148,15 @@ async def test_unknown_error(client: Client, respx_mock) -> None:
 
 
 @pytest.mark.vcr
-async def test_token_error_response(client: Client, respx_mock) -> None:
+async def test_create_token() -> None:
+    token = await Client.create_token(QEQ_CLIENT_ID, QEQ_SECRET_ID)
+    client = Client(QEQ_USER, token)
+    resp = await client.search('Andres Manuel Lopez Obrador', 80)
+    assert len(resp) != 0
+
+
+@pytest.mark.vcr
+async def test_token_error_response(respx_mock) -> None:
     respx_mock.get('https://app.q-detect.com/api/token').mock(
         return_value=Response(
             500,
@@ -170,9 +166,8 @@ async def test_token_error_response(client: Client, respx_mock) -> None:
             },
         )
     )
-    respx_mock.get('https://app.q-detect.com/api/find').pass_through()
     with pytest.raises(QuienEsQuienError):
-        await client.search('Pepito Cuenca', 80)
+        await Client.create_token(QEQ_CLIENT_ID, QEQ_SECRET_ID)
 
 
 async def test_invalid_search_criteria(client: Client) -> None:
@@ -184,3 +179,13 @@ async def test_invalid_search_criteria(client: Client) -> None:
             search_type=SearchType.fisica,
             search_list=(SearchList.PPE, SearchList.ONU),
         )
+
+
+async def test_client_without_token() -> None:
+    search_client = Client('my_username')
+    with pytest.raises(AssertionError) as excinfo:
+        await search_client.search('Andres Manuel Lopez Obrador', 80)
+    assert (
+        str(excinfo.value)
+        == 'you must create or reuse an already created auth token'
+    )

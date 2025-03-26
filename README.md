@@ -6,6 +6,11 @@
 
 Client for the Quienesquien list service (https://app.q-detect.com/)
 
+> [!IMPORTANT]
+> Generating a new authentication token automatically invalidates any previously created tokens.
+> If multiple applications or services are using the same credentials, creating a new token will render the old ones invalid, potentially causing other applications to fail.
+> To avoid issues, reuse an existing token whenever possible by storing it in an environment variable or a secure location.
+
 ## Installation
 
 ```bash
@@ -33,7 +38,22 @@ export QEQ_CLIENT_ID=your_client_id
 export QEQ_SECRET_ID=your_secret_key
 ```
 
+## Token Generation
+
+Before performing searches, you need to create an authentication token using the create_token method:
+
+```python
+from quienesquien import Client
+
+auth_token = await Client.create_token(os.environ['QEQ_CLIENT_ID'], os.environ['QEQ_SECRET_ID'])
+```
+
+You can reuse this token in subsequent requests.
+
 ## Example
+
+Once you have the token, you can perform searches by passing it:
+
 ```python
 import os
 from quienesquien import Client
@@ -45,10 +65,11 @@ from quienesquien.exc import (
     PersonNotFoundError,
 )
 
+auth_token = await Client.create_token(os.environ['QEQ_CLIENT_ID'], os.environ['QEQ_SECRET_ID'])
+
 client = Client(
     os.environ['QEQ_USER'],
-    os.environ['QEQ_CLIENT_ID'],
-    os.environ['QEQ_SECRET_ID'],
+    auth_token,
 )
 
 try:
@@ -70,6 +91,26 @@ except InvalidTokenError:
     print('Token inválido')
 except PersonNotFoundError:
     persons = []
+```
+
+## Environment Variable (Optional)
+
+To simplify usage, you can store the token in an environment variable:
+
+```bash
+export QEQ_AUTH_TOKEN=your_auth_token
+```
+
+Then, instantiate the client using the environment variable:
+
+```python
+import os
+
+client = Client(
+    os.environ['QEQ_USER'],
+    os.environ['QEQ_CLIENT_ID'],
+    os.environ.get('QEQ_AUTH_TOKEN'),
+)
 ```
 
 ## Search Parameters

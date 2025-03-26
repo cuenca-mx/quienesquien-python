@@ -6,13 +6,12 @@ import pytest
 from quienesquien import Client
 
 QEQ_USER = os.environ['QEQ_USER']
-QEQ_CLIENT_ID = os.environ['QEQ_CLIENT_ID']
-QEQ_SECRET_ID = os.environ['QEQ_SECRET_ID']
+QEQ_AUTH_TOKEN = os.environ['QEQ_AUTH_TOKEN']
 
 
 @pytest.fixture()
 async def client() -> AsyncGenerator[Client, None]:
-    yield Client(QEQ_USER, QEQ_CLIENT_ID, QEQ_SECRET_ID)
+    yield Client(QEQ_USER, QEQ_AUTH_TOKEN)
 
 
 @pytest.fixture(scope='session')
