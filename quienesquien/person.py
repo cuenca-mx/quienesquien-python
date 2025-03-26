@@ -15,7 +15,6 @@ class Person(BaseModel):
         default=None, alias='FECHA_NACIMIENTO'
     )
     sexo: str | None = Field(default=None, alias='SEXO')
-    metadata: dict = Field(default_factory=dict, alias='METADATA')
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -28,6 +27,6 @@ class Person(BaseModel):
             lowercase_extra = {
                 k.lower(): v for k, v in self.model_extra.items()
             }
-            self.metadata.update(lowercase_extra)
             self.model_extra.clear()
+            self.model_extra.update(lowercase_extra)
         return self
