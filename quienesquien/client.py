@@ -1,6 +1,6 @@
 import datetime as dt
-from dataclasses import dataclass, field
-from typing import Any, Mapping
+from dataclasses import dataclass
+from typing import Any, ClassVar, Mapping
 
 import httpx
 
@@ -21,9 +21,7 @@ class Client:
     base_url = 'https://app.q-detect.com'
     username: str
     auth_token: str | None = None
-    _client: httpx.AsyncClient = field(
-        default_factory=httpx.AsyncClient, init=False
-    )
+    _client: ClassVar[httpx.AsyncClient] = httpx.AsyncClient()
 
     async def _make_request(
         self,
@@ -50,11 +48,10 @@ class Client:
             'Accept-Encoding': 'identity',
         }
         try:
-            async with httpx.AsyncClient() as client:
-                response = await client.request(
-                    'GET', auth_url, headers=headers, params=params
-                )
-                response.raise_for_status()
+            response = await cls._client.request(
+                'GET', auth_url, headers=headers, params=params
+            )
+            response.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise QuienEsQuienError(exc.response) from exc
         return response.text
