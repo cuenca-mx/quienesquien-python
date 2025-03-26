@@ -3,6 +3,9 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 class Person(BaseModel):
     lista: str = Field(alias='LISTA')
+    peso1: int = Field(
+        alias='COINCIDENCIA'
+    )  # peso1 is required for backward compatibility with previous version.
     coincidencia: int = Field(alias='COINCIDENCIA')
     nombrecomp: str = Field(alias='NOMBRECOMP')
     id_persona: str | None = Field(default=None, alias='ID_PERSONA')
