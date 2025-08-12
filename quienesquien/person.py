@@ -1,3 +1,5 @@
+import datetime as dt
+
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -27,11 +29,21 @@ class Person(BaseModel):
         extra='allow',
     )
 
-    @computed_field  # type: ignore[misc]
-    @property
+    @computed_field
     def peso1(self) -> str:
         # peso1 is required for backward compatibility with previous version.
         return str(self.coincidencia)
+
+    @computed_field
+    def fecha_nacimiento_date(self) -> dt.date | None:
+        if not self.fecha_nacimiento:
+            return None
+        try:
+            return dt.datetime.strptime(
+                self.fecha_nacimiento, '%d/%m/%Y'
+            ).date()
+        except (TypeError, ValueError):
+            return None
 
     @model_validator(mode='after')
     def collect_extra_fields(self):
