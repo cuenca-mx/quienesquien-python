@@ -54,3 +54,18 @@ class Person(BaseModel):
             self.model_extra.clear()
             self.model_extra.update(lowercase_extra)
         return self
+
+    def is_potential_false_positive(
+        self, date_of_birth: dt.date | None = None, curp: str | None = None
+    ) -> bool:
+        if (
+            date_of_birth
+            and self.fecha_nacimiento_date is not None
+            and self.fecha_nacimiento_date != date_of_birth
+        ):
+            return True
+
+        if curp and self.curp and curp != self.curp:
+            return True
+
+        return False
