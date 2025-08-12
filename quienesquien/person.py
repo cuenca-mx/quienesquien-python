@@ -34,7 +34,7 @@ class Person(BaseModel):
         # peso1 is required for backward compatibility with previous version.
         return str(self.coincidencia)
 
-    @computed_field
+    @property
     def fecha_nacimiento_date(self) -> dt.date | None:
         if not self.fecha_nacimiento:
             return None
