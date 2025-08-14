@@ -51,47 +51,63 @@ def test_fecha_nacimiento_date(
     person = Person(**person_data)
 
     assert person.fecha_nacimiento == fecha_nacimiento_input
-    assert person.fecha_nacimiento_date == expected_date
+    assert person.fecha_nacimiento_to_date == expected_date
 
 
 @pytest.mark.parametrize(
     'p_nacimiento, p_curp, input_date, input_curp, expected_result',
     [
-        # Different birth dates - should be potential false positive
-        ('13/11/1953', None, dt.date(1953, 11, 14), None, True),
-        # Same birth dates - should not be potential false positive
-        ('13/11/1953', None, dt.date(1953, 11, 13), None, False),
-        # Different CURPs - should be potential false positive
-        (None, 'LOOA531113HDFPBR07', None, 'DIFFERENT_CURP_123', True),
-        # Same CURPs - should not be potential false positive
-        (None, 'LOOA531113HDFPBR07', None, 'LOOA531113HDFPBR07', False),
-        # Both date and CURP different - should be potential false positive
+        # Different birth dates
+        ('13/11/1953', None, dt.date(1953, 11, 14), None, False),
+        # Same birth dates
+        ('13/11/1953', None, dt.date(1953, 11, 13), None, True),
+        # Different CURPs
+        (None, 'LOOA531113HDFPBR07', None, 'DIFFERENT_CURP_123', False),
+        # Same CURPs
+        (None, 'LOOA531113HDFPBR07', None, 'LOOA531113HDFPBR07', True),
+        # Different birth dates and same curp
+        (
+            '13/11/1953',
+            'LOOA531113HDFPBR07',
+            dt.date(1953, 11, 14),
+            'LOOA531113HDFPBR07',
+            False,
+        ),
+        # Same birth dates and different curp
+        (
+            '13/11/1953',
+            'LOOA531113HDFPBR07',
+            dt.date(1953, 11, 13),
+            'DIFFERENT_CURP_123',
+            False,
+        ),
+        # Both date and CURP different
         (
             '13/11/1953',
             'LOOA531113HDFPBR07',
             dt.date(1953, 11, 14),
             'DIFFERENT_CURP_123',
-            True,
+            False,
         ),
-        # Both date and CURP same - should not be potential false positive
+        # Both date and CURP same
         (
             '13/11/1953',
             'LOOA531113HDFPBR07',
             dt.date(1953, 11, 13),
             'LOOA531113HDFPBR07',
-            False,
+            True,
         ),
-        # No data to compare - should not be potential false positive
-        (None, None, None, None, False),
-        # Person has data but no input data - should not be false positive
-        ('13/11/1953', None, None, None, False),
-        (None, 'LOOA531113HDFPBR07', None, None, False),
-        ('13/11/1953', 'LOOA531113HDFPBR07', None, None, False),
-        # Input data but person has no data - should not be false positive
-        (None, None, dt.date(1953, 11, 13), 'LOOA531113HDFPBR07', False),
+        # No data to compare
+        (None, None, None, None, True),
+        # Person has data but no input data
+        ('13/11/1953', None, None, None, True),
+        (None, 'LOOA531113HDFPBR07', None, None, True),
+        ('13/11/1953', 'LOOA531113HDFPBR07', None, None, True),
+        # Input data but person has no data
+        (None, None, dt.date(1953, 11, 13), 'LOOA531113HDFPBR07', True),
     ],
 )
-def test_is_potential_false_positive(
+def test_matches_data(
     p_nacimiento: str | None,
     p_curp: str | None,
     input_date: dt.date | None,
@@ -112,7 +128,5 @@ def test_is_potential_false_positive(
 
     person = Person(**person_data)
 
-    result = person.is_potential_false_positive(
-        date_of_birth=input_date, curp=input_curp
-    )
+    result = person.matches_data(date_of_birth=input_date, curp=input_curp)
     assert result == expected_result

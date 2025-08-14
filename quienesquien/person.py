@@ -35,7 +35,7 @@ class Person(BaseModel):
         return str(self.coincidencia)
 
     @property
-    def fecha_nacimiento_date(self) -> dt.date | None:
+    def fecha_nacimiento_to_date(self) -> dt.date | None:
         if not self.fecha_nacimiento:
             return None
         try:
@@ -55,17 +55,13 @@ class Person(BaseModel):
             self.model_extra.update(lowercase_extra)
         return self
 
-    def is_potential_false_positive(
+    def matches_data(
         self, date_of_birth: dt.date | None = None, curp: str | None = None
     ) -> bool:
-        if (
-            date_of_birth
-            and self.fecha_nacimiento_date is not None
-            and self.fecha_nacimiento_date != date_of_birth
-        ):
-            return True
-
-        if curp and self.curp and curp != self.curp:
-            return True
-
-        return False
+        if date_of_birth and self.fecha_nacimiento_to_date:
+            if self.fecha_nacimiento_to_date != date_of_birth:
+                return False
+        if curp and self.curp:
+            if curp != self.curp:
+                return False
+        return True
