@@ -58,10 +58,7 @@ class Person(BaseModel):
     def matches_data(
         self, date_of_birth: dt.date | None = None, curp: str | None = None
     ) -> bool:
-        if date_of_birth and self.fecha_nacimiento_to_date:
-            if self.fecha_nacimiento_to_date != date_of_birth:
-                return False
-        if curp and self.curp:
-            if curp != self.curp:
-                return False
-        return True
+        dob = self.fecha_nacimiento_to_date
+        match_dob = bool(dob and dob == date_of_birth)
+        match_curp = bool(self.curp and self.curp == curp)
+        return match_dob or match_curp

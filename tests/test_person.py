@@ -71,7 +71,7 @@ def test_fecha_nacimiento_date(
             'LOOA531113HDFPBR07',
             dt.date(1953, 11, 14),
             'LOOA531113HDFPBR07',
-            False,
+            True,
         ),
         # Same birth dates and different curp
         (
@@ -79,7 +79,7 @@ def test_fecha_nacimiento_date(
             'LOOA531113HDFPBR07',
             dt.date(1953, 11, 13),
             'DIFFERENT_CURP_123',
-            False,
+            True,
         ),
         # Both date and CURP different
         (
@@ -98,13 +98,13 @@ def test_fecha_nacimiento_date(
             True,
         ),
         # No data to compare
-        (None, None, None, None, True),
+        (None, None, None, None, False),
         # Person has data but no input data
-        ('13/11/1953', None, None, None, True),
-        (None, 'LOOA531113HDFPBR07', None, None, True),
-        ('13/11/1953', 'LOOA531113HDFPBR07', None, None, True),
+        ('13/11/1953', None, None, None, False),
+        (None, 'LOOA531113HDFPBR07', None, None, False),
+        ('13/11/1953', 'LOOA531113HDFPBR07', None, None, False),
         # Input data but person has no data
-        (None, None, dt.date(1953, 11, 13), 'LOOA531113HDFPBR07', True),
+        (None, None, dt.date(1953, 11, 13), 'LOOA531113HDFPBR07', False),
     ],
 )
 def test_matches_data(
