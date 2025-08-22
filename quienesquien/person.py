@@ -1,3 +1,5 @@
+import datetime as dt
+
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -27,11 +29,21 @@ class Person(BaseModel):
         extra='allow',
     )
 
-    @computed_field  # type: ignore[misc]
-    @property
+    @computed_field
     def peso1(self) -> str:
         # peso1 is required for backward compatibility with previous version.
         return str(self.coincidencia)
+
+    @property
+    def fecha_nacimiento_to_date(self) -> dt.date | None:
+        if not self.fecha_nacimiento:
+            return None
+        try:
+            return dt.datetime.strptime(
+                self.fecha_nacimiento, '%d/%m/%Y'
+            ).date()
+        except (TypeError, ValueError):
+            return None
 
     @model_validator(mode='after')
     def collect_extra_fields(self):
@@ -42,3 +54,11 @@ class Person(BaseModel):
             self.model_extra.clear()
             self.model_extra.update(lowercase_extra)
         return self
+
+    def matches_data(
+        self, date_of_birth: dt.date | None = None, curp: str | None = None
+    ) -> bool:
+        dob = self.fecha_nacimiento_to_date
+        match_dob = bool(dob and dob == date_of_birth)
+        match_curp = bool(self.curp and self.curp == curp)
+        return match_dob or match_curp
