@@ -12,7 +12,7 @@ from pydantic import (
 class Person(BaseModel):
     lista: str = Field(alias='LISTA')
     coincidencia: int = Field(alias='COINCIDENCIA')
-    nombrecomp: str = Field(alias='NOMBRECOMP')
+    nombrecomp: str | None = Field(default=None, alias='NOMBRECOMP')
     id_persona: str | None = Field(default=None, alias='ID_PERSONA')
     nombre: str | None = Field(default=None, alias='NOMBRE')
     paterno: str | None = Field(default=None, alias='PATERNO')
