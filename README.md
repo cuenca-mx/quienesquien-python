@@ -123,6 +123,7 @@ client = Client(
 - `search_type` (SearchType): fisica or moral.
 - `search_list` (tuple[SearchList, ...]): Lists to search.
     If not provided, searches all.
+- `include_history` (bool): Include historical records (default: False).
 
 The search follows a hierarchical approach: it first attempts to find a match using the RFC.
 If no match is found, it searches by CURP. Finally, if neither is found, it looks for a match by name.
