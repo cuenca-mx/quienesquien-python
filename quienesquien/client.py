@@ -66,6 +66,7 @@ class Client:
         birthday: dt.date | None = None,
         search_type: SearchType | None = None,
         search_list: tuple[SearchList, ...] | None = None,
+        include_history: bool | None = None,
     ) -> list[Person]:
         """Perform a search request and return the results.
 
@@ -105,6 +106,7 @@ class Client:
             'birthday': birthday.strftime('%d/%m/%Y') if birthday else None,
             'type': search_type.value if search_type is not None else None,
             'list': ','.join(search_list) if search_list else None,
+            'include_history': include_history,
         }
 
         params = {k: v for k, v in params.items() if v is not None}
